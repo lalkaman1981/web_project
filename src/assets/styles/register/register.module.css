@@ -1,0 +1,15 @@
+.text_reg {
+    size: 12px;
+}
+
+.link_reg {
+    size: 40px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.link_reg:hover {
+    transition: color 0.5s ease;
+    color: #0483ee;
+}
