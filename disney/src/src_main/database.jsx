@@ -1,4 +1,4 @@
-import usersDatabase from '../../../database/database.json';
+import usersDatabase from "../src_database/database.json";
 
 
 function addToDatabase(email, password) {

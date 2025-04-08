@@ -3,7 +3,7 @@ import login_styles from "../../assets/styles/login/login.module.css";
 import disneyLogo from "../../assets/images/login/Disneppp.png";
 
 
-const DisneyLogin = () => {
+const Register = () => {
     return (
         <div className={login_styles.main_bg}>
     
@@ -42,4 +42,4 @@ const DisneyLogin = () => {
     );
 };
 
-export default DisneyLogin;
+export default Register;
