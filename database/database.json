@@ -1,0 +1,64 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "email": "user1@example.com",
+            "password": "password1",
+            "nickname": "userOne"
+        },
+        {
+            "id": 2,
+            "email": "user2@example.com",
+            "password": "password2",
+            "nickname": "userTwo"
+        },
+        {
+            "id": 3,
+            "email": "user3@example.com",
+            "password": "password3",
+            "nickname": "userThree"
+        },
+        {
+            "id": 4,
+            "email": "user4@example.com",
+            "password": "password4",
+            "nickname": "userFour"
+        },
+        {
+            "id": 5,
+            "email": "user5@example.com",
+            "password": "password5",
+            "nickname": "userFive"
+        },
+        {
+            "id": 6,
+            "email": "user6@example.com",
+            "password": "password6",
+            "nickname": "userSix"
+        },
+        {
+            "id": 7,
+            "email": "user7@example.com",
+            "password": "password7",
+            "nickname": "userSeven"
+        },
+        {
+            "id": 8,
+            "email": "user8@example.com",
+            "password": "password8",
+            "nickname": "userEight"
+        },
+        {
+            "id": 9,
+            "email": "user9@example.com",
+            "password": "password9",
+            "nickname": "userNine"
+        },
+        {
+            "id": 10,
+            "email": "user10@example.com",
+            "password": "password10",
+            "nickname": "userTen"
+        }
+    ]
+}
