@@ -21,6 +21,9 @@ import InfoLogo from "../../assets/images/home/info.png";
 
 import FilmLogo from "../../assets/images/home/Movielogo.png";
 
+import Overlay1 from "../../assets/images/home/overlay1.png";
+import Overlay2 from "../../assets/images/home/overlay1.png";
+
 import styles from "../../assets/styles/home/home.module.css";
 
 
@@ -29,6 +32,8 @@ function Home(){
     return(
         <div className={styles.HomeContainer}>
             <img className={styles.bg_image} src={bg}></img>
+            <img className={styles.Overlay1} src={Overlay1}></img>
+            <img className={styles.Overlay2} src={Overlay2}></img>
             <header className={styles.header}>
                 <nav className={styles.header_nav_left}>
                     <img className={styles.disney_logo} src={disneyLogo2}></img>
