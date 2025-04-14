@@ -22,6 +22,12 @@ const Register = () => {
                 required
             />
 
+            <input className={login_styles.input_log}
+                type="password"
+                placeholder="Password"
+                required
+            />
+
             <label>
                 <input type="checkbox" checked />
                 <span className={`${register_styles.text_reg} ${login_styles.text_log}`}>Yes! I want to receive updates, special offers, and other <br />
