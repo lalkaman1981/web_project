@@ -22,8 +22,35 @@ body {
     height: 100vh;
     width: 100vw;
     object-fit: cover;
-    z-index: -1;
+    z-index: -2;
 }
+
+.Overlay1{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 60vh;
+    width: 100vw;
+    z-index: -2;
+}
+.Overlay2{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: -2;
+}
+
+.OverlayTop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 20vh;
+    width: 100vw;
+    z-index: -2;
+}
+
 
 .header{
     margin-top: 10px;
@@ -65,7 +92,13 @@ body {
     padding: 8px 16px;
     color: white;
 
+    transition: transform 0.2s ease-in-out;
 }
+.header_link:hover{
+    transform: scale(1.05);
+}
+
+
 
 .avatar{
 
@@ -78,6 +111,11 @@ body {
     flex-direction: column;
     align-items: flex-start;
     margin-left: 50px;
+}
+
+.logo_img{
+    width: 500px;
+    height: auto;
 }
 
 .film_logo_text{
@@ -114,7 +152,15 @@ body {
 
     text-transform: uppercase;
     font-weight: bold;   
+
+    transition: transform 0.2s ease-in-out;
+
 }
+
+.film_btn_play:hover{
+    transform: scale(1.05);
+}
+
 
 .film_btn_info{
     display: flex;
@@ -133,6 +179,12 @@ body {
 
     text-transform: uppercase; 
     font-weight: bold;   
+
+    transition: transform 0.2s ease-in-out;
+
+}
+.film_btn_info:hover{
+    transform: scale(1.05);
 }
 
 
@@ -140,6 +192,7 @@ body {
 .footer{
     margin-top: 20px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-evenly;
 
@@ -147,8 +200,15 @@ body {
 
 .footer_btn{
     background-color: #3A3D50;
-    border: 1px solid white;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.232);
     border-radius: 8px;
     opacity: 0.9;
     cursor: pointer;
+
+    transition: transform 0.2s ease-in-out;
+}
+
+.footer_btn:hover{
+    transform: scale(1.05);
 }
