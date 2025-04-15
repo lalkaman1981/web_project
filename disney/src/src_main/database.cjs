@@ -1,8 +1,11 @@
-const path = '../src_database/database.json';
+const db_path = '../src_database/database.json';
 
 const jsonServer = require('json-server');
+const path = require('path');
+
+const real_path = path.join(__dirname, db_path)
 const server = jsonServer.create();
-const router = jsonServer.router(path);
+const router = jsonServer.router(real_path);
 const middlewares = jsonServer.defaults();
 const fs = require('fs');
 
@@ -16,7 +19,7 @@ server.post('/addUser', (req, res) => {
     return res.status(400).json({ error: 'Missing email or password' });
   }
 
-  const db = JSON.parse(fs.readFileSync(path, 'utf-8'));
+  const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
   const users = db.users;
 
   if (users.find(user => user.email === email)) {
@@ -31,7 +34,7 @@ server.post('/addUser', (req, res) => {
   };
 
   users.push(newUser);
-  fs.writeFileSync(path, JSON.stringify(db, null, 2));
+  fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
 
   res.status(201).json(newUser);
 });
@@ -39,7 +42,7 @@ server.post('/addUser', (req, res) => {
 server.delete('/removeUser', (req, res) => {
   const { email } = req.body;
 
-  const db = JSON.parse(fs.readFileSync(path, 'utf-8'));
+  const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
   const users = db.users;
   const filtered = users.filter(user => user.email !== email);
 
@@ -48,7 +51,7 @@ server.delete('/removeUser', (req, res) => {
   }
 
   db.users = filtered;
-  fs.writeFileSync(path, JSON.stringify(db, null, 2));
+  fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
 
   res.status(200).json({ message: 'User removed' });
 });
@@ -56,7 +59,7 @@ server.delete('/removeUser', (req, res) => {
 server.post('/searchUser', (req, res) => {
   const { email, password } = req.body;
 
-  const db = JSON.parse(fs.readFileSync(path, 'utf-8'));
+  const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
   const user = db.users.find(u => u.email === email && u.password === password);
 
   if (!user) {
