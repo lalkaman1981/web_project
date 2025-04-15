@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import login_styles from "../../assets/styles/login/login.module.css";
-import disneyLogo from "../../assets/images/login/Disneppp.png";
+import disneyLogo from "../../assets/images/login_register/Disneppp.png";
 
 const Login = () => {
     const [email, setEmail] = useState("");
