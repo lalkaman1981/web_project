@@ -69,6 +69,49 @@ server.post('/searchUser', (req, res) => {
   res.status(200).json(user);
 });
 
+server.post('/findAllFavorites', (req, res) => {
+  const { id } = req.body;
+
+  const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
+  const users = db.favorites.filter(fav => fav.email === id);
+
+  res.status(200).json(users);
+});
+
+server.post('/addFavorite', (req, res) => {
+  const { user_id, film_id } = req.body;
+
+  const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
+  const favorites = db.favorites;
+
+  const newFavorite = {
+    id: user_id,
+    film_id: film_id
+  };
+
+  favorites.push(newFavorite);
+  fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+
+  res.status(201).json(newFavorite);
+});
+
+server.delete('/removeFavorite', (req, res) => {
+  const { id, film_id } = req.body;
+
+  const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
+  const favorites = db.favorites;
+  const filtered = favorites.filter(favorite => favorite.id !== id && favorite.film_id !== film_id);
+
+  if (favorites.length === filtered.length) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  db.users = filtered;
+  fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+
+  res.status(200).json({ message: 'User removed' });
+});
+
 server.use(router);
 server.listen(3000, () => {
   console.log('JSON Server is running on http://localhost:3000');

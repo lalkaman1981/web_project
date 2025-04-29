@@ -4,6 +4,7 @@ import login_styles from "../../assets/styles/login/login.module.css";
 import disneyLogo from "../../assets/images/login/Disneppp.png";
 
 const Login = () => {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -28,7 +29,12 @@ const Login = () => {
             const data = await response.json();
 
             if (response.status === 200) {
-                navigate("/");
+                navigate("/", {
+                    state: {
+                        email,
+                        password
+                    }
+                });
             } else if (response.status === 404) {
                 setError(data.error || "Wrong email or password");
             } else {
