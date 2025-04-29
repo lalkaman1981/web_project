@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import register_styles from "../../assets/styles/register/register.module.css";
 import login_styles from "../../assets/styles/login/login.module.css";
-import disneyLogo from "../../assets/images/login/Disneppp.png";
+import disneyLogo from "../../assets/images/login_register/Disneppp.png";
 
 
 const Register = () => {
@@ -58,7 +58,7 @@ const Register = () => {
 
     return (
         <div className={login_styles.main_bg}>
-    
+
             <a href="/login" className={register_styles.link_reg}>Login</a>
 
             <img className={login_styles.small_image}

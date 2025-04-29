@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from "react-router-dom";
 
-import disneyLogo from "../../assets/images/home/disney.png";
+import disneyLogo from "../../assets/images/home/disney.svg";
 import disneyLogo2 from "../../assets/images/home/logoDisney.png";
-import StarWarsLogo from "../../assets/images/home/star_wars.png";
-import MarvelLogo from "../../assets/images/home/marvel.png";
-import NatureLogo from "../../assets/images/home/nature.png";
-import PixarLogo from "../../assets/images/home/pixar.png";
-import avatarLogo from "../../assets/images/home/Avatar.png";
+import StarWarsLogo from "../../assets/images/home/star_wars.svg";
+import MarvelLogo from "../../assets/images/home/marvel.svg";
+import NatureLogo from "../../assets/images/home/nature.svg";
+import PixarLogo from "../../assets/images/home/pixar.svg";
+import avatarLogo from "../../assets/images/home/Avatar.svg";
 
-import homeLogo from "../../assets/images/home/home.png";
-import SeriesLogo from "../../assets/images/home/tv.png";
-import filmsLogo from "../../assets/images/home/movie.png";
-import OriginalsLogo from "../../assets/images/home/star.png";
-import SearchLogo from "../../assets/images/home/serach.png";
-import PlusLogo from "../../assets/images/home/plus.png";
 
-import PlayLogo from "../../assets/images/home/play.png";
-import InfoLogo from "../../assets/images/home/info.png";
+import homeLogo from "../../assets/images/home/home.svg";
+import SeriesLogo from "../../assets/images/home/tv.svg";
+import filmsLogo from "../../assets/images/home/movie.svg";
+import OriginalsLogo from "../../assets/images/home/star.svg";
+import SearchLogo from "../../assets/images/home/search.svg";
+import PlusLogo from "../../assets/images/home/plus.svg";
+
+import PlayLogo from "../../assets/images/home/play.svg";
+import InfoLogo from "../../assets/images/home/info.svg";
+
 
 import Overlay1 from "../../assets/images/home/overlay1.png";
 import Overlay2 from "../../assets/images/home/overlay1.png";
-import OverlayTop from "../../assets/images/home/overlaytop.png";
+import OverlayTop from "../../assets/images/home/overlayTop.png";
 
 import styles from "../../assets/styles/home/home.module.css";
 
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI"
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI"
@@ -109,19 +112,20 @@ function Home() {
     useEffect(() => {
         fetchMovie();
 
+
         const interval = setInterval(fetchMovie, 86400000);
+
 
         return () => clearInterval(interval);
     }, []);
 
-
     if (!movie) return <div>Loading...</div>;
     if (!logoUrl) return <div>Loading...</div>;
 
-    console.log(movie)
-
     const bgImage = `${IMAGE_BASE_URL}${movie.backdrop_path}`;
     const movieDecrp = `${movie.overview}`;
+
+    return (
 
     return (
         <div className={styles.HomeContainer}>
