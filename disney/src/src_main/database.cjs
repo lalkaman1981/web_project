@@ -71,12 +71,17 @@ server.post('/searchUser', (req, res) => {
 
 server.post('/findAllFavorites', (req, res) => {
   const { id } = req.body;
+  const userId = Number(id);
 
   const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
-  const users = db.favorites.filter(fav => fav.email === id);
 
-  res.status(200).json(users);
+  const favoritesForUser = db.favorites.filter(fav => fav.id === userId);
+
+  const filmIds = favoritesForUser.map(fav => fav.film_id);
+
+  return res.status(200).json(filmIds);
 });
+
 
 server.post('/addFavorite', (req, res) => {
   const { user_id, film_id } = req.body;

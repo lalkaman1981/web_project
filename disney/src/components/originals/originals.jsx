@@ -19,7 +19,7 @@ import OverlayTop from "../../assets/images/home/overlayTop.png";
 
 import styles from "../../assets/styles/originals/originals.module.css";
 
-const API_KEY = "";
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const API_URL = "https://api.themoviedb.org/3";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
@@ -257,4 +257,6 @@ function Originals() {
     );
 }
 
+
 export default Originals;
+export { ContentRow };
