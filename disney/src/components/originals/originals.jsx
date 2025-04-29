@@ -257,4 +257,6 @@ function Originals() {
     );
 }
 
+
 export default Originals;
+export { ContentRow };

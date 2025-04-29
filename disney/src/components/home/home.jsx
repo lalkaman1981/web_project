@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, Link } from "react-router-dom";
 
 import disneyLogo from "../../assets/images/home/disney.svg";
 import disneyLogo2 from "../../assets/images/home/logoDisney.png";
@@ -30,8 +31,44 @@ const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMm
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
-
 function Home() {
+    const location = useLocation();
+    const { email = "", password = "" } = location.state || {};
+
+    const [userData, setUserData] = useState(null);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const resp = await fetch("http://localhost:3000/searchUser", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                if (!resp.ok) {
+                    throw new Error("User not found or unauthorized");
+                }
+
+                const data = await resp.json();
+                setUserData(data);
+            } catch (e) {
+                setError(e.message);
+            }
+        }
+        )();
+    }, [email, password]);
+
+    if (error) {
+        return (
+            <div>
+                <p>No user data. Go back to <Link to="/registration">Registration</Link>.</p>
+                <p><em>{error}</em></p>
+            </div>
+        );
+    }
+
     const [movie, setMovie] = useState(null);
     const [logoUrl, setLogoUrl] = useState(null);
 
@@ -74,7 +111,9 @@ function Home() {
     useEffect(() => {
         fetchMovie();
 
+
         const interval = setInterval(fetchMovie, 86400000);
+
 
         return () => clearInterval(interval);
     }, []);
@@ -118,9 +157,9 @@ function Home() {
                     <a className={styles.header_link} href="#">
                         <img src={PlusLogo} alt="" />
                         My list</a>
-                    <a className={styles.header_link} href="#">
-                        <img className="avatar" src={avatarLogo}></img>
-                    </a>
+                    <Link className={styles.header_link} to="/user" state={{ email, password }}>
+                        <img className="avatar" src={avatarLogo} alt="Avatar" />
+                    </Link>
                 </nav>
             </header>
 

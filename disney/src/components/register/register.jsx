@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import register_styles from "../../assets/styles/register/register.module.css";
 import login_styles from "../../assets/styles/login/login.module.css";
 import disneyLogo from "../../assets/images/login_register/Disneppp.png";
@@ -9,6 +9,7 @@ const Register = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const [repeatPassword, setRepeatPassword] = useState('');
     const [agree, setAgree] = useState(false);
     const [error, setError] = useState('');
@@ -44,7 +45,12 @@ const Register = () => {
                 throw new Error(data.error || 'Registration failed');
             }
 
-            navigate('/login');
+            navigate('/login', {
+                state: {
+                    email,
+                    password
+                }
+            });
         } catch (err) {
             setError(err.message);
         }
