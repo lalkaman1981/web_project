@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from 'react-router-dom';
 import { ContentRow } from "../originals/originals.jsx";
-import disneyLogo from "../../assets/images/home/disney.svg";
 import "../../assets/styles/user/user.css";
+
+import Header from "../global_components/header.jsx"
 
 const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const API_URL = "https://api.themoviedb.org/3";
@@ -89,17 +90,7 @@ function Profile() {
 
     return (
         <div className="app">
-            <header className="navbar">
-                <div className="logo">
-                    <img src={disneyLogo}></img>
-                </div>
-                <nav className="nav-links">
-                    <Link to="/" state={{ email, password }}>Home</Link>
-                    <Link to="/series" state={{ email, password }}>Series</Link>
-                    <Link to="/movies" state={{ email, password }}>Movies</Link>
-                    <Link to="/originals" state={{ email, password }}>Originals</Link>
-                </nav>
-            </header>
+            <Header/>
             <main>
                 <h2>Your favourite films</h2>
                 {movies.length > 0 ? (

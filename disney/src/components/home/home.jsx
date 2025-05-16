@@ -2,20 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from "react-router-dom";
 
 import disneyLogo from "../../assets/images/home/disney.svg";
-import disneyLogo2 from "../../assets/images/home/logoDisney.png";
 import StarWarsLogo from "../../assets/images/home/star_wars.svg";
 import MarvelLogo from "../../assets/images/home/marvel.svg";
 import NatureLogo from "../../assets/images/home/nature.svg";
 import PixarLogo from "../../assets/images/home/pixar.svg";
-import avatarLogo from "../../assets/images/home/Avatar.svg";
 
-
-import homeLogo from "../../assets/images/home/home.svg";
-import SeriesLogo from "../../assets/images/home/tv.svg";
-import filmsLogo from "../../assets/images/home/movie.svg";
-import OriginalsLogo from "../../assets/images/home/star.svg";
-import SearchLogo from "../../assets/images/home/search.svg";
-import PlusLogo from "../../assets/images/home/plus.svg";
 
 import PlayLogo from "../../assets/images/home/play.svg";
 import InfoLogo from "../../assets/images/home/info.svg";
@@ -26,6 +17,8 @@ import Overlay2 from "../../assets/images/home/overlay1.png";
 import OverlayTop from "../../assets/images/home/overlayTop.png";
 
 import styles from "../../assets/styles/home/home.module.css";
+
+import Header from "../global_components/header.jsx"
 
 const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI"
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
@@ -130,38 +123,7 @@ function Home() {
             <img className={styles.Overlay1} src={Overlay1}></img>
             <img className={styles.Overlay2} src={Overlay2}></img>
             <img className={styles.OverlayTop} src={OverlayTop}></img>
-            <header className={styles.header}>
-                <nav className={styles.header_nav_left}>
-                    <img className={styles.disney_logo} src={disneyLogo2}></img>
-                    <a className={styles.header_link} href="#">
-                        <img src={homeLogo} alt="" />
-                        Home
-                    </a>
-                    <a className={styles.header_link} href="#">
-                        <img src={SeriesLogo} alt="" />
-                        Series
-                    </a>
-                    <a className={styles.header_link} href="#">
-                        <img src={filmsLogo} alt="" />
-                        Movies
-                    </a>
-                    <a className={styles.header_link} href="#">
-                        <img src={OriginalsLogo} alt="" />
-                        Originals
-                    </a>
-                </nav>
-                <nav className={styles.header_nav_right}>
-                    <a className={styles.header_link} href="#">
-                        <img src={SearchLogo} alt="" />
-                        Search</a>
-                    <a className={styles.header_link} href="#">
-                        <img src={PlusLogo} alt="" />
-                        My list</a>
-                    <Link className={styles.header_link} to="/user" state={{ email, password }}>
-                        <img className="avatar" src={avatarLogo} alt="Avatar" />
-                    </Link>
-                </nav>
-            </header>
+            <Header/>
 
             <section className={styles.film}>
                 <div className={styles.film_logo_text}>
@@ -202,4 +164,4 @@ function Home() {
         </div>
     );
 }
-export default Home
+export default Home;

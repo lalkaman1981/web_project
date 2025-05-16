@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import disneyLogo2 from "../../assets/images/home/logoDisney.png";
-import avatarLogo from "../../assets/images/home/Avatar.svg";
-
-import homeLogo from "../../assets/images/originals/home.svg";
-import SeriesLogo from "../../assets/images/home/tv.svg";
-import filmsLogo from "../../assets/images/home/movie.svg";
-import OriginalsLogo from "../../assets/images/originals/star.svg";
-import SearchLogo from "../../assets/images/home/search.svg";
-import PlusLogo from "../../assets/images/home/plus.svg";
-
 import PlayLogo from "../../assets/images/home/play.svg";
 import InfoLogo from "../../assets/images/home/info.svg";
 
@@ -19,7 +9,9 @@ import OverlayTop from "../../assets/images/home/overlayTop.png";
 
 import styles from "../../assets/styles/originals/originals.module.css";
 
-const API_KEY = "";
+import Header from "../global_components/header.jsx"
+
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const API_URL = "https://api.themoviedb.org/3";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
@@ -193,40 +185,7 @@ function Originals() {
             <img className={styles.Overlay1} src={Overlay1} alt="Overlay" />
             <img className={styles.Overlay2} src={Overlay2} alt="Overlay" />
             <img className={styles.OverlayTop} src={OverlayTop} alt="Overlay" />
-            <header className={styles.header}>
-                <nav className={styles.header_nav_left}>
-                    <img className={styles.disney_logo} src={disneyLogo2} alt="Disney+" />
-                    <a className={styles.header_link} href="#">
-                        <img src={homeLogo} alt="" />
-                        Home
-                    </a>
-                    <a className={styles.header_link} href="#">
-                        <img src={SeriesLogo} alt="" />
-                        Series
-                    </a>
-                    <a className={styles.header_link} href="#">
-                        <img src={filmsLogo} alt="" />
-                        Movies
-                    </a>
-                    <a className={styles.header_link} data-special="true" href="#">
-                        <img src={OriginalsLogo} alt="" />
-                        Originals
-                    </a>
-                </nav>
-                <nav className={styles.header_nav_right}>
-                    <a className={styles.header_link} href="#">
-                        <img src={SearchLogo} alt="" />
-                        Search
-                    </a>
-                    <a className={styles.header_link} href="#">
-                        <img src={PlusLogo} alt="" />
-                        My list
-                    </a>
-                    <a className={styles.header_link} href="#">
-                        <img className="avatar" src={avatarLogo} alt="Avatar" />
-                    </a>
-                </nav>
-            </header>
+            <Header/>
 
             <section className={styles.film}>
                 <div className={styles.film_logo_text}>
