@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
 import { ContentRow } from "../originals/originals.jsx";
 import "../../assets/styles/user/user.css";
 
@@ -7,14 +6,15 @@ import Header from "../global_components/header.jsx"
 import ErrorComp from "../global_components/error.jsx"
 
 const API_URL = "https://api.themoviedb.org/3";
-const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 function Favorites() {
-    const location = useLocation();
-    const { email = "", password = "" } = location.state || {};
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
 
     const [movieIds, setMovieIds] = useState([]);
     const [movies, setMovies] = useState([]);
+    const [seriesIds, setSeriesIds] = useState([]);
     const [series, setSeries] = useState([]);
     const [error, setError] = useState("");
 
@@ -51,7 +51,11 @@ function Favorites() {
 
                 const data2 = await resp2.json();
 
-                setMovieIds(data2 || []);
+                console.log("boba: ", data2)
+
+                setMovieIds(data2.filmIds || []);
+                setSeriesIds(data2.seriesIds || []);
+
             } catch (e) {
                 console.error(e);
                 setError(e.message);
@@ -73,14 +77,33 @@ function Favorites() {
                     }).then(res => res.json())
                 );
                 const results = await Promise.all(promises);
-                console.log('Obtained Film ID:', results);
                 setMovies(results);
             } catch (e) {
-                console.error('Error fetching movie details:', e);
                 setError('Error while getting films data');
             }
         })();
     }, [movieIds]);
+
+    useEffect(() => {
+        if (seriesIds.length === 0) return;
+        (async () => {
+            try {
+                const promises = seriesIds.map(id =>
+                    fetch(`${API_URL}/tv/${id}`, {
+                        method: 'GET',
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `Bearer ${API_KEY}`,
+                        },
+                    }).then(res => res.json())
+                );
+                const results = await Promise.all(promises);
+                setSeries(results);
+            } catch (e) {
+                setError('Error while getting films data');
+            }
+        })();
+    }, [seriesIds]);
 
     if (error) {
         return (
@@ -90,20 +113,20 @@ function Favorites() {
 
     return (
         <div className="app">
-            <Header password={password} email={email} />
+            <Header />
             <main>
                 <h2>Your favorite films</h2>
                 {movies.length > 0 ? (
                     <ContentRow items={movies} />
                 ) : (
-                    <p>You don't have favourite films yet.</p>
+                    <p>You don't have favorite films yet.</p>
                 )}
 
                 <h2>Your favorite series</h2>
-                {movies.length > 0 ? (
-                    <ContentRow items={movies} />
+                {series.length > 0 ? (
+                    <ContentRow items={series} />
                 ) : (
-                    <p>You don't have favorite films yet.</p>
+                    <p>You don't have favorite series yet.</p>
                 )}
 
             </main>

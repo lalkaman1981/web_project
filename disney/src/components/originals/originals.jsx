@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import PlayLogo from "../../assets/images/home/play.svg";
 import InfoLogo from "../../assets/images/home/info.svg";
 
 import Overlay1 from "../../assets/images/home/overlay1.png";
-import Overlay2 from "../../assets/images/home/overlay1.png";
+import Overlay2 from "../../assets/images/home/overlay2.png";
 import OverlayTop from "../../assets/images/home/overlayTop.png";
 
 import styles from "../../assets/styles/originals/originals.module.css";
@@ -15,8 +14,8 @@ import Header from "../global_components/header.jsx"
 import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 
+const API_KEY = import.meta.env.VITE_API_KEY;
 const API_URL = "https://api.themoviedb.org/3";
-const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 
@@ -255,9 +254,6 @@ const ContentRow = ({ title, items }) => {
 
 function Originals() {
 
-    const location = useLocation();
-    const { email = "", password = "" } = location.state || {};
-
     const [newContent, setNewContent] = useState([]);
     const [series, setSeries] = useState([]);
     const [movies, setMovies] = useState([]);
@@ -342,7 +338,7 @@ function Originals() {
             <img className={styles.Overlay1} src={Overlay1} alt="Overlay" />
             <img className={styles.Overlay2} src={Overlay2} alt="Overlay" />
             <img className={styles.OverlayTop} src={OverlayTop} alt="Overlay" />
-            <Header password={password} email={email} />
+            <Header activePath={"/originals"} />
 
             <section className={styles.film}>
                 <div className={styles.film_logo_text}>

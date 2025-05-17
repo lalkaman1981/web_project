@@ -45,12 +45,10 @@ const Register = () => {
                 throw new Error(data.error || 'Registration failed');
             }
 
-            navigate('/login', {
-                state: {
-                    email,
-                    password
-                }
-            });
+            localStorage.setItem('email', email);
+            localStorage.setItem('password', password);
+            navigate('/');
+
         } catch (err) {
             setError(err.message);
         }
@@ -92,7 +90,7 @@ const Register = () => {
             />
 
             <label>
-                <input type="checkbox" class="checkbox-input" checked={agree}
+                <input type="checkbox" className="checkbox-input" checked={agree}
                     onChange={(e) => setAgree(e.target.checked)} />
                 <span className={register_styles.text_reg}>Yes! I want to receive updates, special offers, and other <br />
                     information from Disney+ and the Walt Disney Family of Companies.</span>
