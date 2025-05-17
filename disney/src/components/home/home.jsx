@@ -20,6 +20,7 @@ import styles from "../../assets/styles/home/home.module.css";
 
 import Header from "../global_components/header.jsx"
 
+const API_KEY = process.env.API_KEY;
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
