@@ -187,7 +187,7 @@ function Originals() {
             <img className={styles.Overlay1} src={Overlay1} alt="Overlay" />
             <img className={styles.Overlay2} src={Overlay2} alt="Overlay" />
             <img className={styles.OverlayTop} src={OverlayTop} alt="Overlay" />
-            <Header/>
+            <Header activePath={"/originals"} />
 
             <section className={styles.film}>
                 <div className={styles.film_logo_text}>

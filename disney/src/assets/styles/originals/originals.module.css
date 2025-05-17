@@ -80,7 +80,13 @@ body {
     margin-right: 50px;
 }
 
-.header_link[data-special="true"] {
+.activeLink {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;   
+    padding: 8px 16px;
     color: #02e7f5;
 }
 

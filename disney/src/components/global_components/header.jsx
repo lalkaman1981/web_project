@@ -10,48 +10,71 @@ import OriginalsLogo from "../../assets/images/originals/star.svg";
 import SearchBar from "./search_bar.jsx";
 import styles from "../../assets/styles/originals/originals.module.css";
 
-function Header() {
+
+function Header({ activePath = "" }) {
     const navigate = useNavigate();
 
     const handleLink = (link) => {
         navigate(link);
     };
     const doSearch = (q) => {
-        navigate("/search", { state: { query: q} });
-    }
+        navigate("/search", { state: { query: q } });
+    };
+
+    console.log(activePath)
+
+    const linkClass = (path) =>
+        `${activePath === path ? styles.activeLink : styles.header_link}`;
+
     return (
         <header className={styles.header}>
             <nav className={styles.header_nav_left}>
                 <img className={styles.disney_logo} src={disneyLogo2} alt="Disney+" />
+
                 <a
                     href="/"
-                    className={styles.header_link}
-                    onClick={(e) => { e.preventDefault(); handleLink("/"); }}
+                    className={linkClass("/")}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleLink("/");
+                    }}
                 >
                     <img src={homeLogo} alt="" />
                     Home
                 </a>
+
                 <a
                     href="/series"
-                    className={styles.header_link}
-                    onClick={(e) => { e.preventDefault(); handleLink("/series"); }}
+                    className={linkClass("/series")}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleLink("/series");
+                    }}
                 >
                     <img src={SeriesLogo} alt="" />
                     Series
                 </a>
+
                 <a
                     href="/film"
-                    className={styles.header_link}
-                    onClick={(e) => { e.preventDefault(); handleLink("/film"); }}
+                    className={linkClass("/film")}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleLink("/film");
+                    }}
                 >
                     <img src={filmsLogo} alt="" />
                     Movies
                 </a>
+
                 <a
                     data-special="true"
                     href="/originals"
-                    className={styles.header_link}
-                    onClick={(e) => { e.preventDefault(); handleLink("/originals"); }}
+                    className={linkClass("/originals")}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleLink("/originals");
+                    }}
                 >
                     <img src={OriginalsLogo} alt="" />
                     Originals
@@ -63,7 +86,10 @@ function Header() {
                 <a
                     href="/user"
                     className={styles.header_link}
-                    onClick={(e) => { e.preventDefault(); handleLink("/user"); }}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleLink("/user");
+                    }}
                 >
                     <img className="avatar" src={avatarLogo} alt="Avatar" />
                 </a>

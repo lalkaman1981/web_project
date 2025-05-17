@@ -116,7 +116,7 @@ function Home() {
             <img className={styles.Overlay1} src={Overlay1}></img>
             <img className={styles.Overlay2} src={Overlay2}></img>
             <img className={styles.OverlayTop} src={OverlayTop}></img>
-            <Header/>
+            <Header activePath={"/"} />
 
             <section className={styles.film}>
                 <div className={styles.film_logo_text}>

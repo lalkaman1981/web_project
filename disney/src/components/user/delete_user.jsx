@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../global_components/header.jsx";
+import styles from "../../assets/styles/login/login.module.css"
 
 function DeleteUser() {
     const navigate = useNavigate();
@@ -49,8 +50,8 @@ function DeleteUser() {
     return (
         <div>
             <Header/>
-            <div>
-                <form onSubmit={handlePassword}>
+            <div className={styles.button_assets}>
+                <form onSubmit={handlePassword} className={styles.button_assets}>
                     <input
                         type="password"
                         placeholder="password"
@@ -59,11 +60,11 @@ function DeleteUser() {
                         onChange={(e) => setCheckPassword(e.target.value)}
                     />
                     {error && <p>{error}</p>}
-                    <button type="submit">
+                    <button type="submit" className={styles.button_log}>
                         Delete account
                     </button>
                 </form>
-                <button type="button" onClick={() => handleLink("/user")}>
+                <button type="button" onClick={() => handleLink("/user")} className={styles.button_log}>
                     Go back
                 </button>
             </div>
