@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, Link } from "react-router-dom";
 
-import disneyLogo from "../../assets/images/home/disney.svg";
-import StarWarsLogo from "../../assets/images/home/star_wars.svg";
-import MarvelLogo from "../../assets/images/home/marvel.svg";
-import NatureLogo from "../../assets/images/home/nature.svg";
-import PixarLogo from "../../assets/images/home/pixar.svg";
-
 
 import PlayLogo from "../../assets/images/home/play.svg";
 import InfoLogo from "../../assets/images/home/info.svg";
@@ -141,24 +135,6 @@ function Home() {
                     </button>
                 </div>
             </section>
-
-            <footer className={styles.footer}>
-                <button className={styles.footer_btn} href="#">
-                    <img src={disneyLogo} alt="Disney" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={PixarLogo} alt="Pixar" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={MarvelLogo} alt="Marvel" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={StarWarsLogo} alt="Star Wars" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={NatureLogo} alt="National Geographic" />
-                </button>
-            </footer>
         </div>
     );
 }
