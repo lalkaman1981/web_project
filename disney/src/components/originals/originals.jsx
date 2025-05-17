@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import PlayLogo from "../../assets/images/home/play.svg";
@@ -12,16 +12,28 @@ import styles from "../../assets/styles/originals/originals.module.css";
 
 import Header from "../global_components/header.jsx"
 
-const API_URL = "https://api.themoviedb.org/3";
+import VideoPlayer from '../global_components/video_player.jsx';
+import Toast from '../global_components/toast.jsx';
 
+const API_URL = "https://api.themoviedb.org/3";
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
-const ContentRow = ({ title, items }) => {
 
+const ContentRow = ({ title, items }) => {
+    const [trailerKey, setTrailerKey] = useState(null);
+    const rowRef = useRef(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [showPreview, setShowPreview] = useState(false);
+    const [previewPosition, setPreviewPosition] = useState({ top: 0, left: 0 });
+    const [initialScrollY, setInitialScrollY] = useState(0);
+    const [showToLeft, setShowToLeft] = useState(false);
+    const [noTrailerMessage, setNoTrailerMessage] = useState(null);
     const itemsPerPage = 5;
+    const previewRef = useRef(null);
+    const previewWidth = 400;
+    const previewMargin = 10;
 
     const totalPages = Math.ceil(items.length / itemsPerPage);
 
@@ -30,26 +42,137 @@ const ContentRow = ({ title, items }) => {
         currentPage * itemsPerPage + itemsPerPage
     );
 
+    useEffect(() => {
+        return () => {
+            if (hoverIntentTimerRef.current) {
+                clearTimeout(hoverIntentTimerRef.current);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (showPreview) {
+            const handleScroll = () => {
+                const scrollDiff = Math.abs(window.scrollY - initialScrollY);
+                if (scrollDiff > 20) {
+                    setShowPreview(false);
+                }
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+        }
+    }, [showPreview, initialScrollY]);
+
     const handleDotClick = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
 
-    const handleMouseEnter = (item) => {
-        const timeout = setTimeout(() => {
-            setHoveredItem(item);
-            setShowPreview(true);
-        }, 400);
-        item.hoverTimeout = timeout;
+    const hoverIntentTimerRef = useRef(null);
+    const hoverIntentThreshold = 300;
+
+    const handleMouseEnter = (item, event) => {
+        if (hoverIntentTimerRef.current) {
+            clearTimeout(hoverIntentTimerRef.current);
+        }
+
+        const currentTarget = event.currentTarget;
+
+        hoverIntentTimerRef.current = setTimeout(() => {
+            if (currentTarget.matches(':hover')) {
+                const rect = currentTarget.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                const windowWidth = window.innerWidth;
+
+                const rowRect = rowRef.current.getBoundingClientRect();
+                const rowTop = rowRect.top + scrollTop;
+
+                const wouldOverflowRight = (rect.right + previewWidth + previewMargin) > windowWidth;
+
+                setHoveredItem(item);
+                setInitialScrollY(scrollTop);
+                setShowToLeft(wouldOverflowRight);
+
+                if (wouldOverflowRight) {
+                    setPreviewPosition({
+                        top: rowTop + (rect.top - rowRect.top),
+                        left: rect.left - previewWidth - previewMargin
+                    });
+                } else {
+                    setPreviewPosition({
+                        top: rowTop + (rect.top - rowRect.top),
+                        left: rect.right + scrollLeft + previewMargin
+                    });
+                }
+
+                setShowPreview(true);
+            }
+        }, hoverIntentThreshold);
     };
 
-    const handleMouseLeave = (item) => {
-        clearTimeout(item.hoverTimeout);
-        setShowPreview(false);
-        setHoveredItem(null);
+    const handleMouseLeave = (item, event) => {
+        if (hoverIntentTimerRef.current) {
+            clearTimeout(hoverIntentTimerRef.current);
+            hoverIntentTimerRef.current = null;
+        }
+
+        if (previewRef.current && !previewRef.current.contains(event.relatedTarget)) {
+            const timeout = setTimeout(() => {
+                const isOverPreview = previewRef.current && previewRef.current.matches(':hover');
+                if (!isOverPreview) {
+                    setShowPreview(false);
+                }
+            }, 100);
+
+            return () => clearTimeout(timeout);
+        }
     };
+
+    const handlePreviewMouseLeave = (event) => {
+        const relatedTarget = event.relatedTarget;
+        const isGoingToCard = relatedTarget && relatedTarget.classList.contains(styles.content_card);
+
+        if (!isGoingToCard) {
+            setShowPreview(false);
+        }
+    };
+
+
+    const handlePlayClick = async (item) => {
+        const endpoint = item.title
+            ? `/movie/${item.id}/videos`
+            : `/tv/${item.id}/videos`;
+
+        try {
+            const res = await fetch(`${API_URL}${endpoint}`, {
+                headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${API_KEY}`,
+                }
+            });
+            const data = await res.json();
+            const trailer = data.results.find(
+                v => v.type === 'Trailer' && v.site === 'YouTube'
+            );
+
+            if (trailer) {
+                setTrailerKey(trailer.key);
+                setNoTrailerMessage(null);
+            } else {
+                setTrailerKey(null);
+                setNoTrailerMessage('Trailer not available');
+            }
+        } catch (error) {
+            console.error('Error fetching trailer:', error);
+            setTrailerKey(null);
+            setNoTrailerMessage('Failed to load trailer');
+        }
+    };
+
 
     return (
-        <div className={styles.content_row}>
+        <div className={styles.content_row} ref={rowRef}>
             <div className={styles.content_name_and_dots}>
                 <h2 className={styles.white_text}>{title}</h2>
                 <div className={styles.slider_dots}>
@@ -68,8 +191,8 @@ const ContentRow = ({ title, items }) => {
                         <div
                             key={item.id}
                             className={styles.content_card}
-                            onMouseEnter={() => handleMouseEnter(item)}
-                            onMouseLeave={() => handleMouseLeave(item)}
+                            onMouseEnter={(e) => handleMouseEnter(item, e)}
+                            onMouseLeave={(e) => handleMouseLeave(item, e)}
                         >
                             <img
                                 src={`${IMAGE_BASE_URL}${item.backdrop_path}`}
@@ -83,7 +206,18 @@ const ContentRow = ({ title, items }) => {
                 </div>
             </div>
             {showPreview && hoveredItem && (
-                <div className={styles.preview_window}>
+                <div
+                    ref={previewRef}
+                    className={`${styles.preview_window} ${showToLeft ? styles.preview_left_position : ''}`}
+                    style={{
+                        position: 'absolute !important',
+                        top: `${previewPosition.top}px`,
+                        left: `${previewPosition.left}px`,
+                        transform: 'none',
+                        zIndex: 1000
+                    }}
+                    onMouseLeave={handlePreviewMouseLeave}
+                >
                     <div className={styles.preview_left}>
                         <img
                             src={`${IMAGE_BASE_URL}${hoveredItem.poster_path}`}
@@ -92,10 +226,28 @@ const ContentRow = ({ title, items }) => {
                     </div>
                     <div className={styles.preview_right}>
                         <h3>{hoveredItem.title || hoveredItem.name}</h3>
-                        <button className={styles.preview_button}>Play</button>
+                        <button
+                            className={styles.preview_button}
+                            onClick={() => handlePlayClick(hoveredItem)}
+                        >
+                            Play
+                        </button>
                         <button className={styles.preview_button}>Add to Favourites</button>
                     </div>
                 </div>
+            )}
+            {trailerKey && (
+                <VideoPlayer
+                    videoKey={trailerKey}
+                    onClose={() => setTrailerKey(null)}
+                />
+            )}
+
+            {noTrailerMessage && (
+                <Toast
+                    message={noTrailerMessage}
+                    onClose={() => setNoTrailerMessage(null)}
+                />
             )}
         </div>
     );

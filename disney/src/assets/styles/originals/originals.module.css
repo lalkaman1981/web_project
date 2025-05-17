@@ -291,12 +291,7 @@ body {
 
 /* Preview Window */
 .preview_window {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: row;
+    position: absolute !important;
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     padding: 16px;
@@ -304,6 +299,8 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     width: 400px;
     height: 200px;
+    display: flex;
+    flex-direction: row;
 }
 
 .preview_left img {

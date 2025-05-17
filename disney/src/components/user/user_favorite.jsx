@@ -7,6 +7,7 @@ import Header from "../global_components/header.jsx"
 import ErrorComp from "../global_components/error.jsx"
 
 const API_URL = "https://api.themoviedb.org/3";
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 
 function Favorites() {
     const location = useLocation();

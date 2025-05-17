@@ -21,6 +21,7 @@ import styles from "../../assets/styles/home/home.module.css";
 import Header from "../global_components/header.jsx"
 
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 function Home() {
