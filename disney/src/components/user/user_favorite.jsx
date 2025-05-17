@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
 import { ContentRow } from "../originals/originals.jsx";
 import "../../assets/styles/user/user.css";
 
 import Header from "../global_components/header.jsx"
 import ErrorComp from "../global_components/error.jsx"
 
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const API_URL = "https://api.themoviedb.org/3";
 
 function Favorites() {
-    const location = useLocation();
-    const { email = "", password = "" } = location.state || {};
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
 
     const [movieIds, setMovieIds] = useState([]);
     const [movies, setMovies] = useState([]);
@@ -89,7 +89,7 @@ function Favorites() {
 
     return (
         <div className="app">
-            <Header password={password} email={email} />
+            <Header/>
             <main>
                 <h2>Your favorite films</h2>
                 {movies.length > 0 ? (

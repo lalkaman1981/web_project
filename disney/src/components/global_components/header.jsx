@@ -10,13 +10,11 @@ import SearchLogo from "../../assets/images/home/search.svg";
 
 import styles from "../../assets/styles/originals/originals.module.css";
 
-function Header({ email, password }) {
+function Header() {
     const navigate = useNavigate();
 
     const handleLink = (link) => {
-        navigate(link, {
-            state: { email, password }
-        });
+        navigate(link);
     };
 
     return (

@@ -1,33 +1,52 @@
-import Header from "../global_components/header.jsx"
+import { useNavigate, useLocation } from "react-router-dom";
+import Header from "../global_components/header.jsx";
 
 function Profile() {
-    const location = useLocation();
-    const { email = "", password = "" } = location.state || {};
+    const navigate = useNavigate();
 
     const handleLink = (link) => {
-        navigate(link, {
-            state: { email, password }
-        });
+        navigate(link);
+    };
+
+    const handleLogout = () => {
+        localStorage.setItem('email', "");
+        localStorage.setItem('password', "");
+        navigate('/login');
     };
 
     return (
         <div>
-            <Header password={password} email={email} />
+            <Header/>
             <div>
-                <button>
 
+                <button
+                    type="button"
+                    onClick={() => handleLink("/favorites")}
+                >
+                    Favorites
                 </button>
-                <div>
-                    Log out
-                </div>
-                <div>
-                    Delete account
-                </div>
-                <div>
-                    About us
-                </div>
-            </div>
 
+                <button
+                    onClick={handleLogout}
+                >
+                    Log out
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => handleLink("/delete_user")}
+                >
+                    Delete account
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => handleLink("/about_us")}
+                >
+                    About us
+                </button>
+
+            </div>
         </div>
     );
 }

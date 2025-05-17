@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import disneyLogo from "../../assets/images/home/disney.svg";
 import StarWarsLogo from "../../assets/images/home/star_wars.svg";
@@ -20,12 +20,14 @@ import styles from "../../assets/styles/home/home.module.css";
 
 import Header from "../global_components/header.jsx"
 
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 function Home() {
-    const location = useLocation();
-    const { email = "", password = "" } = location.state || {};
+
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
 
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState("");
@@ -120,7 +122,7 @@ function Home() {
             <img className={styles.Overlay1} src={Overlay1}></img>
             <img className={styles.Overlay2} src={Overlay2}></img>
             <img className={styles.OverlayTop} src={OverlayTop}></img>
-            <Header password={password} email={email} />
+            <Header/>
 
             <section className={styles.film}>
                 <div className={styles.film_logo_text}>

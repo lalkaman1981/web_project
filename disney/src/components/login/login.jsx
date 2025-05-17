@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import login_styles from "../../assets/styles/login/login.module.css";
 import disneyLogo from "../../assets/images/login_register/Disneppp.png";
@@ -29,14 +29,13 @@ const Login = () => {
             const data = await response.json();
 
             if (response.status === 200) {
-                navigate("/", {
-                    state: {
-                        email,
-                        password
-                    }
-                });
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password);
+                navigate("/");
+
             } else if (response.status === 404) {
                 setError(data.error || "Wrong email or password");
+
             } else {
                 setError("Something went wrong");
             }
