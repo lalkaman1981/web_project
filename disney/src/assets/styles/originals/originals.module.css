@@ -1,6 +1,6 @@
 body {
-    background-color: #1A1D29;
-    font-family: 'Work Sans', sans-serif;
+    background-color: #1a1d29;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     width: 100%;
     margin: 0;
@@ -53,7 +53,6 @@ body {
     z-index: -2;
 }
 
-
 .header {
     margin-top: 10px;
     display: flex;
@@ -82,7 +81,7 @@ body {
 }
 
 .header_link[data-special="true"] {
-    color: #02E7F5;
+    color: #02e7f5;
 }
 
 .header_link {
@@ -101,9 +100,8 @@ body {
     transform: scale(1.05);
 }
 
-
-
-.avatar {}
+.avatar {
+}
 
 /* Middle */
 
@@ -125,7 +123,8 @@ body {
     line-height: 30px;
 }
 
-.film_text {}
+.film_text {
+}
 
 .film_bttns {
     display: flex;
@@ -153,13 +152,11 @@ body {
     font-weight: bold;
 
     transition: transform 0.2s ease-in-out;
-
 }
 
 .film_btn_play:hover {
     transform: scale(1.05);
 }
-
 
 .film_btn_info {
     display: flex;
@@ -180,13 +177,11 @@ body {
     font-weight: bold;
 
     transition: transform 0.2s ease-in-out;
-
 }
 
 .film_btn_info:hover {
     transform: scale(1.05);
 }
-
 
 .content_container {
     margin-top: 5px;
@@ -225,7 +220,7 @@ body {
     width: 240px;
     height: 136px;
     overflow: hidden;
-    background-color: #3A3D50;
+    background-color: #3a3d50;
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
@@ -288,7 +283,6 @@ body {
     justify-content: space-between;
 }
 
-
 /* Preview Window */
 .preview_window {
     position: absolute;
@@ -327,7 +321,7 @@ body {
 }
 
 .preview_button {
-    background-color: #02E7F5;
+    background-color: #02e7f5;
     color: black;
     border: none;
     padding: 8px 16px;
@@ -339,5 +333,5 @@ body {
 }
 
 .preview_button:hover {
-    background-color: #00C4D0;
+    background-color: #00c4d0;
 }

@@ -75,12 +75,14 @@ server.post('/findAllFavorites', (req, res) => {
 
   const db = JSON.parse(fs.readFileSync(real_path, 'utf-8'));
 
-  const favoritesForUser = db.favorites.filter(fav => fav.id === userId);
+  const userFavorites = db.favorites.find(fav => fav.id === userId);
 
-  const filmIds = favoritesForUser.map(fav => fav.film_id);
+  const filmIds = userFavorites ? userFavorites.film_id : [];
+  const seriesIds = userFavorites ? userFavorites.series_id : [];
 
-  return res.status(200).json(filmIds);
+  return res.status(200).json({filmIds, seriesIds});
 });
+
 
 
 server.post('/addFavorite', (req, res) => {

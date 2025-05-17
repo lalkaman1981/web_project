@@ -7,6 +7,7 @@ import Originals from '../components/originals/originals.jsx';
 import Profile from '../components/user/user.jsx';
 import AboutUs from '../components/global_components/about_us.jsx';
 import DeleteUser from '../components/user/delete_user.jsx';
+import Search from '../components/search/search.jsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/registration" element={<Register />} />
       <Route path="/" element={<Home />} />
       <Route path="/originals" element={<Originals />} />
+      <Route path="/search" element={<Search />} />
 
       <Route path="/user" element={<Profile />} />
       <Route path="/favorites" element={<Favorites />} />

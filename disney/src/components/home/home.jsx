@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
-
-import disneyLogo from "../../assets/images/home/disney.svg";
-import StarWarsLogo from "../../assets/images/home/star_wars.svg";
-import MarvelLogo from "../../assets/images/home/marvel.svg";
-import NatureLogo from "../../assets/images/home/nature.svg";
-import PixarLogo from "../../assets/images/home/pixar.svg";
+import { useLocation, Link } from "react-router-dom";
 
 
 import PlayLogo from "../../assets/images/home/play.svg";
@@ -20,7 +14,7 @@ import styles from "../../assets/styles/home/home.module.css";
 
 import Header from "../global_components/header.jsx"
 
-const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWMyYzUyODg1MzJhZGM1ZjFjZGYxMmMyMGZmNDM1ZSIsIm5iZiI6MTc0NDU3OTczMC40NCwic3ViIjoiNjdmYzJjOTJjMWUwYTcwOGNiYWNmMTY5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.QkT_EiCyUhEy5XHr04DFn6RQw9vNmgCv1QgEhzvELiI";
+const API_KEY = import.meta.env.VITE_API_KEY;
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
@@ -142,24 +136,6 @@ function Home() {
                     </button>
                 </div>
             </section>
-
-            <footer className={styles.footer}>
-                <button className={styles.footer_btn} href="#">
-                    <img src={disneyLogo} alt="Disney" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={PixarLogo} alt="Pixar" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={MarvelLogo} alt="Marvel" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={StarWarsLogo} alt="Star Wars" />
-                </button>
-                <button className={styles.footer_btn} href="#">
-                    <img src={NatureLogo} alt="National Geographic" />
-                </button>
-            </footer>
         </div>
     );
 }
