@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import PlayLogo from "../../assets/images/home/play.svg";
 import InfoLogo from "../../assets/images/home/info.svg";
@@ -11,12 +12,12 @@ import styles from "../../assets/styles/originals/originals.module.css";
 
 import Header from "../global_components/header.jsx"
 
-
 const API_URL = "https://api.themoviedb.org/3";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 const ContentRow = ({ title, items }) => {
+
     const [currentPage, setCurrentPage] = useState(0);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [showPreview, setShowPreview] = useState(false);
@@ -101,6 +102,10 @@ const ContentRow = ({ title, items }) => {
 };
 
 function Originals() {
+
+    const location = useLocation();
+    const { email = "", password = "" } = location.state || {};
+
     const [newContent, setNewContent] = useState([]);
     const [series, setSeries] = useState([]);
     const [movies, setMovies] = useState([]);
