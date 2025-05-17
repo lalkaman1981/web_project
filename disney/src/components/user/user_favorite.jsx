@@ -7,8 +7,7 @@ import Header from "../global_components/header.jsx"
 import ErrorComp from "../global_components/error.jsx"
 
 const API_URL = "https://api.themoviedb.org/3";
-const API_KEY = process.env.API_KEY;
-
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 function Favorites() {
     const location = useLocation();

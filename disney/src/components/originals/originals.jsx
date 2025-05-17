@@ -13,7 +13,7 @@ import styles from "../../assets/styles/originals/originals.module.css";
 import Header from "../global_components/header.jsx"
 
 const API_URL = "https://api.themoviedb.org/3";
-const API_KEY = process.env.API_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 

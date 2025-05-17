@@ -6,8 +6,8 @@ import homeLogo from "../../assets/images/originals/home.svg";
 import SeriesLogo from "../../assets/images/home/tv.svg";
 import filmsLogo from "../../assets/images/home/movie.svg";
 import OriginalsLogo from "../../assets/images/originals/star.svg";
-import SearchLogo from "../../assets/images/home/search.svg";
 
+import SearchBar from "./search_bar.jsx";
 import styles from "../../assets/styles/originals/originals.module.css";
 
 function Header({ email, password }) {
@@ -18,7 +18,9 @@ function Header({ email, password }) {
             state: { email, password }
         });
     };
-
+    const doSearch = (q) => {
+        navigate("/search", { state: { query: q, email, password } });
+    }
     return (
         <header className={styles.header}>
             <nav className={styles.header_nav_left}>
@@ -59,14 +61,7 @@ function Header({ email, password }) {
             </nav>
 
             <nav className={styles.header_nav_right}>
-                <a
-                    href="/search"
-                    className={styles.header_link}
-                    onClick={(e) => { e.preventDefault(); handleLink("/search"); }}
-                >
-                    <img src={SearchLogo} alt="" />
-                    Search
-                </a>
+                <SearchBar onSearch={doSearch} />
                 <a
                     href="/user"
                     className={styles.header_link}
