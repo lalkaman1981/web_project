@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import SearchLogo from "../../assets/images/home/search.svg";
 import styles from "../../assets/styles/search_bar/search_bar.module.css";
 
-export default function SearchBar({ onSearch }) {
+function SearchBar({ onSearch }) {
     const [expanded, setExpanded] = useState(false);
     const [query, setQuery]       = useState("");
     const inputRef                = useRef(null);
@@ -57,3 +57,5 @@ export default function SearchBar({ onSearch }) {
         </div>
     );
 }
+
+export default SearchBar;

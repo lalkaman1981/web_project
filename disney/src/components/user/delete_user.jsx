@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../global_components/header.jsx";
-import styles from "../../assets/styles/login/login.module.css"
+import "../../assets/styles/user/user.css"
 
-function DeleteUser() {
+function DeleteUser({setDel}) {
     const navigate = useNavigate();
     const password = localStorage.getItem('password');
     const email = localStorage.getItem('email');
@@ -24,8 +23,6 @@ function DeleteUser() {
             return;
         }
 
-        console.log(email);
-
         try {
             const response = await fetch("http://localhost:3000/removeUser", {
                 method: "DELETE",
@@ -43,31 +40,29 @@ function DeleteUser() {
         }
     };
 
-    const handleLink = (link) => {
-        navigate(link);
-    };
+    const handleDestruction = () => {
+        setDel(false);
+    }
 
     return (
-        <div>
-            <Header/>
-            <div className={styles.button_assets}>
-                <form onSubmit={handlePassword} className={styles.button_assets}>
-                    <input
-                        type="password"
-                        placeholder="password"
-                        required
-                        value={checkPassword}
-                        onChange={(e) => setCheckPassword(e.target.value)}
-                    />
-                    {error && <p>{error}</p>}
-                    <button type="submit" className={styles.button_log}>
-                        Delete account
-                    </button>
-                </form>
-                <button type="button" onClick={() => handleLink("/user")} className={styles.button_log}>
-                    Go back
+        <div className="middle_screen">
+            <form onSubmit={handlePassword} className="flex_assets">
+                <input
+                    type="password"
+                    placeholder="password"
+                    required
+                    value={checkPassword}
+                    onChange={(e) => setCheckPassword(e.target.value)}
+                    className="input_log"
+                />
+                {error && <p>{error}</p>}
+                <button type="submit" className="button_log">
+                    Delete account
                 </button>
-            </div>
+            </form>
+            <button type="button" className="button_log" onClick={() => handleDestruction()}>
+                Go back
+            </button>
         </div>
     );
 }

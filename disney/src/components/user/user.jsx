@@ -1,9 +1,12 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import Header from "../global_components/header.jsx";
-import styles from "../../assets/styles/login/login.module.css"
+import { useNavigate } from "react-router-dom";
+import { useState} from "react";
+import "../../assets/styles/user/user.css"
+import DeleteUser from"./delete_user.jsx"
 
 function Profile() {
     const navigate = useNavigate();
+
+    const [isDelOpen, setDel] = useState(false);
 
     const handleLink = (link) => {
         navigate(link);
@@ -15,44 +18,47 @@ function Profile() {
         navigate('/login');
     };
 
+    const handleDelete = (isDelOpen) => {
+        setDel(!isDelOpen);
+        console.log(isDelOpen);
+    }
+
     return (
-        <div>
-            <Header/>
-            <div className={styles.button_assets}>
+        <div className="button_assets">
 
-                <button
-                    type="button"
-                    onClick={() => handleLink("/favorites")}
-                    className={styles.button_log}
-                >
-                    Favorites
-                </button>
+            <button
+                type="button"
+                onClick={() => handleLink("/favorites")}
+                className="button_log pointer_btn"
+            >
+                Favorites
+            </button>
 
-                <button
-                    type="button"
-                    onClick={handleLogout}
-                    className={styles.button_log}
-                >
-                    Log out
-                </button>
+            <button
+                type="button"
+                onClick={handleLogout}
+                className="button_log pointer_btn"
+            >
+                Log out
+            </button>
 
-                <button
-                    type="button"
-                    onClick={() => handleLink("/delete_user")}
-                    className={styles.button_log}
-                >
-                    Delete account
-                </button>
+            <button
+                type="button"
+                onClick={() => handleDelete(isDelOpen)}
+                className="button_log pointer_btn"
+            >
+                Delete account
+            </button>
 
-                <button
-                    type="button"
-                    onClick={() => handleLink("/about_us")}
-                    className={styles.button_log}
-                >
-                    About us
-                </button>
+            <button
+                type="button"
+                onClick={() => handleLink("/about_us")}
+                className="button_log pointer_btn"
+            >
+                About us
+            </button>
 
-            </div>
+            {isDelOpen && <DeleteUser setDel={setDel} />}
         </div>
     );
 }

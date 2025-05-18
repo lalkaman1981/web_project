@@ -9,7 +9,9 @@ import OverlayTop from "../../assets/images/home/overlayTop.png";
 import styles from "../../assets/styles/originals/originals.module.css";
 
 import Header from "../global_components/header.jsx"
+import Footer from "../global_components/footer.jsx"
 import ContentRow from '../global_components/content_row.jsx';
+
 import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
@@ -97,6 +99,7 @@ function Originals() {
                     onClose={closeMessage}
                 />
             )}
+            <Footer />
         </div>
     );
 }
