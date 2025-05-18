@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 
 import PlayLogo from "../../assets/images/home/play.svg";
-import InfoLogo from "../../assets/images/home/info.svg";
-
 
 import Overlay1 from "../../assets/images/home/overlay1.png";
 import Overlay2 from "../../assets/images/home/overlay1.png";
@@ -129,10 +127,6 @@ function Home() {
                     <button className={styles.film_btn_play}>
                         <img src={PlayLogo} alt="" />
                         Watch Now
-                    </button>
-                    <button className={styles.film_btn_info}>
-                        <img src={InfoLogo} alt="" />
-                        More Information
                     </button>
                 </div>
             </section>

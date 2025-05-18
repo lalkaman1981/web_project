@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ContentRow } from "../originals/originals.jsx";
+import ContentRow from "../global_components/content_row.jsx";
 import "../../assets/styles/user/user.css";
 
 import Header from "../global_components/header.jsx"
