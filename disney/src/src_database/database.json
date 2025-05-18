@@ -25,12 +25,6 @@
       "nickname": "userFour"
     },
     {
-      "id": 5,
-      "email": "user5@example.com",
-      "password": "password5",
-      "nickname": "userFive"
-    },
-    {
       "id": 6,
       "email": "user6@example.com",
       "password": "password6",
@@ -93,13 +87,6 @@
       "id": 4,
       "film_id": [
         1197303
-      ],
-      "series_id": []
-    },
-    {
-      "id": 5,
-      "film_id": [
-        1197302
       ],
       "series_id": []
     },

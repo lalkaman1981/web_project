@@ -44,16 +44,22 @@ server.delete("/removeUser", (req, res) => {
 
     const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
     const users = db.users;
-    const filtered = users.filter((user) => user.email !== email);
 
-    if (users.length === filtered.length) {
+    const userToDelete = users.find((user) => user.email === email);
+    
+    if (!userToDelete) {
         return res.status(404).json({ error: "User not found" });
     }
 
-    db.users = filtered;
+    const userId = userToDelete.id;
+
+    db.users = users.filter((user) => user.email !== email);
+
+    db.favorites = db.favorites.filter((favorite) => favorite.id !== userId);
+
     fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
 
-    res.status(200).json({ message: "User removed" });
+    res.status(200).json({ message: "User and their favorites removed successfully" });
 });
 
 server.post("/searchUser", (req, res) => {
