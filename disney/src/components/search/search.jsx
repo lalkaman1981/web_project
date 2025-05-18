@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../global_components/header.jsx";
+import Footer from "../global_components/footer.jsx"
 import styles from "../../assets/styles/search/search.module.css";
 
 const API_URL = "https://api.themoviedb.org/3";
@@ -80,6 +81,7 @@ export default function SearchPage() {
                     </div>
                 )}
             </main>
+            <Footer/>
         </div>
     );
 }

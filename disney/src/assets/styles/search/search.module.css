@@ -1,14 +1,25 @@
 .searchPage {
-    max-width: 100%;
-    color: #fff;
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
-    padding-bottom: 20px;
+    color: #fff;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 500;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1rem;
+    margin-bottom: 100px;
 }
 
 .title {

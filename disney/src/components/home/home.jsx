@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 
 import PlayLogo from "../../assets/images/home/play.svg";
-import InfoLogo from "../../assets/images/home/info.svg";
-
 
 import Overlay1 from "../../assets/images/home/overlay1.png";
 import Overlay2 from "../../assets/images/home/overlay1.png";
@@ -13,6 +11,7 @@ import OverlayTop from "../../assets/images/home/overlayTop.png";
 import styles from "../../assets/styles/home/home.module.css";
 
 import Header from "../global_components/header.jsx"
+import Footer from "../global_components/footer.jsx"
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
@@ -109,7 +108,7 @@ function Home() {
 
     const bgImage = `${IMAGE_BASE_URL}${movie.backdrop_path}`;
     const movieDecrp = `${movie.overview}`;
-
+    console.log(movie);
     return (
         <div className={styles.HomeContainer}>
             <img className={styles.bg_image} src={bgImage}></img>
@@ -125,17 +124,12 @@ function Home() {
                         {movieDecrp}
                     </p>
                 </div>
-                <div className={styles.film_bttns}>
-                    <button className={styles.film_btn_play}>
-                        <img src={PlayLogo} alt="" />
-                        Watch Now
-                    </button>
-                    <button className={styles.film_btn_info}>
-                        <img src={InfoLogo} alt="" />
-                        More Information
-                    </button>
-                </div>
+                <button className={styles.film_btn_play}>
+                    <img src={PlayLogo} className={styles.playBtn} />
+                    Watch Now
+                </button>
             </section>
+            
         </div>
     );
 }
