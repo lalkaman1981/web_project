@@ -1,98 +1,105 @@
 import { useNavigate } from "react-router-dom";
-import disneyLogo2 from "../../assets/images/home/logoDisney.png";
+import { useState, useRef, useEffect } from "react";
+
+import disneyLogo2 from "../../assets/images/login_register/Disneppp.png";
 import avatarLogo from "../../assets/images/home/Avatar.svg";
 
-import homeLogo from "../../assets/images/originals/home.svg";
-import SeriesLogo from "../../assets/images/home/tv.svg";
-import filmsLogo from "../../assets/images/home/movie.svg";
-import OriginalsLogo from "../../assets/images/originals/star.svg";
+import homeLogo from "../../assets/images/header_icons/home.svg";
+import homeLogoB from "../../assets/images/header_icons/home_b.svg";
+
+import SeriesLogo from "../../assets/images/header_icons/tv.svg";
+import SeriesLogoB from "../../assets/images/header_icons/tv_b.svg";
+
+import filmsLogo from "../../assets/images/header_icons/movie.svg";
+import filmsLogoB from "../../assets/images/header_icons/movie_b.svg";
+
+import OriginalsLogo from "../../assets/images/header_icons/star.svg";
+import OriginalsLogoB from "../../assets/images/header_icons/star_b.svg";
 
 import SearchBar from "./search_bar.jsx";
 import styles from "../../assets/styles/originals/originals.module.css";
 
+import Profile from "../user/user.jsx"
 
 function Header({ activePath = "" }) {
     const navigate = useNavigate();
 
-    const handleLink = (link) => {
-        navigate(link);
-    };
-    const doSearch = (q) => {
-        navigate("/search", { state: { query: q } });
-    };
+    const links = [
+        { path: "/", label: "Home", icon: homeLogo, activeIcon: homeLogoB },
+        { path: "/series", label: "Series", icon: SeriesLogo, activeIcon: SeriesLogoB },
+        { path: "/film", label: "Movies", icon: filmsLogo, activeIcon: filmsLogoB },
+        { path: "/originals", label: "Originals", icon: OriginalsLogo, activeIcon: OriginalsLogoB, special: true },
+    ];
 
-    console.log(activePath)
+    const handleLink = (link) => navigate(link);
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const wrapperRef = useRef(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        function handleOutsideClick(e) {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+                setIsOpen(false);
+            }
+        }
+
+        document.addEventListener("click", handleOutsideClick);
+        return () => document.removeEventListener("click", handleOutsideClick);
+    }, [isOpen]);
+
+
+    const doSearch = (q) => navigate("/search", { state: { query: q } });
 
     const linkClass = (path) =>
         `${activePath === path ? styles.activeLink : styles.header_link}`;
+
+    const userBGStyles = (isOpen) =>
+        `${styles.header_link_one} ${isOpen === true ? styles.header_link_one_active : ""} ${styles.user_wrapper}`;
 
     return (
         <header className={styles.header}>
             <nav className={styles.header_nav_left}>
                 <img className={styles.disney_logo} src={disneyLogo2} alt="Disney+" />
 
-                <a
-                    href="/"
-                    className={linkClass("/")}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleLink("/");
-                    }}
-                >
-                    <img src={homeLogo} alt="" />
-                    Home
-                </a>
-
-                <a
-                    href="/series"
-                    className={linkClass("/series")}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleLink("/series");
-                    }}
-                >
-                    <img src={SeriesLogo} alt="" />
-                    Series
-                </a>
-
-                <a
-                    href="/film"
-                    className={linkClass("/film")}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleLink("/film");
-                    }}
-                >
-                    <img src={filmsLogo} alt="" />
-                    Movies
-                </a>
-
-                <a
-                    data-special="true"
-                    href="/originals"
-                    className={linkClass("/originals")}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleLink("/originals");
-                    }}
-                >
-                    <img src={OriginalsLogo} alt="" />
-                    Originals
-                </a>
+                {links.map(({ path, label, icon, activeIcon, special }) => (
+                    <a
+                        key={path}
+                        href={path}
+                        className={linkClass(path)}
+                        data-special={special || undefined}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleLink(path);
+                        }}
+                    >
+                        <img
+                            src={activePath === path ? activeIcon : icon}
+                            alt={label}
+                        />
+                        {label}
+                    </a>
+                ))}
             </nav>
 
             <nav className={styles.header_nav_right}>
                 <SearchBar onSearch={doSearch} />
-                <a
-                    href="/user"
-                    className={styles.header_link}
+                <div
+                    ref={wrapperRef}
+                    className={userBGStyles(isOpen)}
                     onClick={(e) => {
                         e.preventDefault();
-                        handleLink("/user");
+                        e.stopPropagation();   
+                        setIsOpen(open => !open);
                     }}
                 >
-                    <img className="avatar" src={avatarLogo} alt="Avatar" />
-                </a>
+                    <img src={avatarLogo} alt="Avatar"/>
+                    {isOpen && <div onClick={e => e.stopPropagation()}>
+                        <Profile />
+                    </div> }
+                </div>
             </nav>
         </header>
     );

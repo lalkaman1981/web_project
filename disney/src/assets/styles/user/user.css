@@ -65,3 +65,72 @@
 .nav-links a:focus::after {
     width: 100%;
 }
+
+.input_log {
+    background-color: #2e2f3a;
+    color: #c3c3c3;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 16px;
+    outline: none;
+    width: 300px;
+    margin-bottom: 9%;
+}
+
+.input_log::placeholder {
+    color: #c3c3c3;
+    opacity: 1;
+}
+
+.button_log {
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 12px;
+    padding-top: 10px;
+    outline: none;
+    width: 70%;
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+    height: 10%;
+}
+
+.button_log:hover {
+    color: #4097e9;
+    transition: color 0.5s ease;
+}
+
+.button_assets {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    transition: background-color 0.5s ease;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 200%;
+    margin-right: 15%;
+    margin-top: -15%;
+}
+
+.middle_screen {
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    width: 300px;
+    height: 150px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: translate(-180vh, -50vh);
+    text-align: center;
+}

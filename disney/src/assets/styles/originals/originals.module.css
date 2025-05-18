@@ -76,7 +76,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    gap: 16px;
+    gap: 10px;
     margin-right: 50px;
 }
 
@@ -100,6 +100,22 @@ body {
     color: white;
 
     transition: transform 0.2s ease-in-out;
+}
+
+.header_link_one {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    color: white;
+
+    transition: transform 0.2s ease-in-out;
+}
+
+.header_link_one_active {
+    transform: scale(1.05);
 }
 
 .header_link:hover {
@@ -337,4 +353,13 @@ body {
 
 .preview_button:hover {
     background-color: #00c4d0;
+}
+
+.user_wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.disney_logo {
+    width:15%;
 }
