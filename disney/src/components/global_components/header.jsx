@@ -95,7 +95,7 @@ function Header({ activePath = "" }) {
                         setIsOpen(open => !open);
                     }}
                 >
-                    <img src={avatarLogo} alt="Avatar"/>
+                    <img src={avatarLogo} alt="Avatar" className={styles.pointer_im} />
                     {isOpen && <div onClick={e => e.stopPropagation()}>
                         <Profile />
                     </div> }

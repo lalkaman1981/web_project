@@ -4,6 +4,7 @@ import "../../assets/styles/user/user.css";
 
 import Header from "../global_components/header.jsx"
 import ErrorComp from "../global_components/error.jsx"
+import Footer from "../global_components/footer.jsx"
 
 const API_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -128,7 +129,8 @@ function Favorites() {
                 ) : (
                     <p>You don't have favorite series yet.</p>
                 )}
-
+                
+                <Footer />
             </main>
         </div>
     );

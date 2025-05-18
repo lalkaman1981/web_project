@@ -134,3 +134,7 @@
     transform: translate(-180vh, -50vh);
     text-align: center;
 }
+
+.pointer_btn {
+    cursor: pointer;
+}

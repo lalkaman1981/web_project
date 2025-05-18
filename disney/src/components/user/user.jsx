@@ -29,7 +29,7 @@ function Profile() {
             <button
                 type="button"
                 onClick={() => handleLink("/favorites")}
-                className="button_log"
+                className="button_log pointer_btn"
             >
                 Favorites
             </button>
@@ -37,7 +37,7 @@ function Profile() {
             <button
                 type="button"
                 onClick={handleLogout}
-                className="button_log"
+                className="button_log pointer_btn"
             >
                 Log out
             </button>
@@ -45,7 +45,7 @@ function Profile() {
             <button
                 type="button"
                 onClick={() => handleDelete(isDelOpen)}
-                className="button_log"
+                className="button_log pointer_btn"
             >
                 Delete account
             </button>
@@ -53,7 +53,7 @@ function Profile() {
             <button
                 type="button"
                 onClick={() => handleLink("/about_us")}
-                className="button_log"
+                className="button_log pointer_btn"
             >
                 About us
             </button>

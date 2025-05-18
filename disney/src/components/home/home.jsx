@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
-
 import PlayLogo from "../../assets/images/home/play.svg";
 
 import Overlay1 from "../../assets/images/home/overlay1.png";
@@ -10,8 +9,7 @@ import OverlayTop from "../../assets/images/home/overlayTop.png";
 
 import styles from "../../assets/styles/home/home.module.css";
 
-import Header from "../global_components/header.jsx"
-import Footer from "../global_components/footer.jsx"
+import Header from "../global_components/header.jsx";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const API_URL = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
@@ -129,7 +127,6 @@ function Home() {
                     Watch Now
                 </button>
             </section>
-            
         </div>
     );
 }
