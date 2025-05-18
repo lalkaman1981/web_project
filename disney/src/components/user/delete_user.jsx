@@ -53,7 +53,7 @@ function DeleteUser({setDel}) {
                     required
                     value={checkPassword}
                     onChange={(e) => setCheckPassword(e.target.value)}
-                    className="input_log"
+                    className="input_delete"
                 />
                 {error && <p>{error}</p>}
                 <button type="submit" className="button_log">

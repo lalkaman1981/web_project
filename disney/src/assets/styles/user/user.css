@@ -120,19 +120,37 @@
     width: 200%;
     margin-right: 15%;
     margin-top: -15%;
+    z-index: 3;
 }
 
 .middle_screen {
     position: absolute;
     top: 50vh;
     left: 50vw;
-    width: 300px;
-    height: 150px;
+    width: 190%;
+    height: 80%;
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transform: translate(-180vh, -50vh);
     text-align: center;
+    z-index: 5;
+}
+
+.input_delete {
+    background-color: #2e2f3a;
+    color: #c3c3c3;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 16px;
+    outline: none;
+    width: 100%;
+    margin-bottom: 9%;
+}
+
+.input_delete::placeholder {
+    color: #c3c3c3;
+    opacity: 1;
 }
 
 .pointer_btn {
