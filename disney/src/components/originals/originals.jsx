@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import Overlay1 from "../../assets/images/home/overlay1.png";
-import Overlay2 from "../../assets/images/home/overlay2.png";
-import OverlayTop from "../../assets/images/home/overlayTop.png";
-
 import styles from "../../assets/styles/originals/originals.module.css";
 
 import Header from "../global_components/header.jsx"
@@ -13,15 +9,16 @@ import ContentRow from '../global_components/content_row.jsx';
 import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
-import { fetchMovies, fetchLogo, fetchPopularMovie, IMAGE_BASE_URL } from '../../utils/movieApi';
-import FeaturedMovie from './featured_movie.jsx';
+import { fetchMovies, fetchLogo, fetchPopular, PopularType } from '../../utils/movieApi';
+import FeaturedMovie from '../global_components/featured_movie.jsx';
 import { getAllFavorites } from '../../utils/addFavorite';
 
 function Originals() {
-    const [newContent, setNewContent] = useState([]);
-    const [series, setSeries] = useState([]);
-    const [movies, setMovies] = useState([]);
-    const [shorts, setShorts] = useState([]);
+    const nextYear = new Date().getFullYear() + 1;
+    const [popularMovies, setPopularMovies] = useState([]);
+    const [popularSeries, setPopularSeries] = useState([]);
+    const [ukrainianMovies, setUkrainianMovies] = useState([]);
+    const [nextYearMovies, setNextYearMovies] = useState([]);
     const [movie, setMovie] = useState(null);
     const [logoUrl, setLogoUrl] = useState(null);
     const {
@@ -50,15 +47,15 @@ function Originals() {
     }, [email, password]);
 
     useEffect(() => {
-        fetchMovies('/movie/now_playing?language=en-US&page=1').then(setNewContent);
-        fetchMovies('/tv/popular?language=en-US&page=1').then(setSeries);
-        fetchMovies('/movie/top_rated?language=en-US&page=1').then(setMovies);
-        fetchMovies('/movie/upcoming?language=en-US&page=1').then(setShorts);
+        fetchMovies('/movie/popular?language=en-US&page=1').then(setPopularMovies);
+        fetchMovies('/tv/popular?language=en-US&page=1').then(setPopularSeries);
+        fetchMovies('/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_original_language=uk').then(setUkrainianMovies);
+        fetchMovies(`/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&year=${nextYear}`).then(setNextYearMovies);
 
         const getMovieAndLogo = async () => {
-            const mostPopularMovie = await fetchPopularMovie();
-            setMovie(mostPopularMovie);
-            const logo = await fetchLogo(mostPopularMovie.id);
+            const mostPopular = await fetchPopular(PopularType.ALL);
+            setMovie(mostPopular);
+            const logo = await fetchLogo(mostPopular.id);
             setLogoUrl(logo);
         };
         getMovieAndLogo();
@@ -67,15 +64,10 @@ function Originals() {
         return () => clearInterval(interval);
     }, []);
 
-    if (!movie) return <div>Loading...</div>;
-    if (!logoUrl) return <div>Loading...</div>;
+    if (!movie || !logoUrl) return <div>Loading...</div>;
 
     return (
         <div className={styles.OriginalsContainer}>
-            <img className={styles.bg_image} src={`${IMAGE_BASE_URL}${movie.backdrop_path}`} alt="Background" />
-            <img className={styles.Overlay1} src={Overlay1} alt="Overlay" />
-            <img className={styles.Overlay2} src={Overlay2} alt="Overlay" />
-            <img className={styles.OverlayTop} src={OverlayTop} alt="Overlay" />
             <Header activePath={"/originals"} />
 
             <FeaturedMovie
@@ -86,25 +78,25 @@ function Originals() {
 
             <div className={styles.content_container}>
                 <ContentRow
-                    title="New Releases"
-                    items={newContent}
+                    title="Popular Movies"
+                    items={popularMovies}
                     playTrailer={playTrailer}
                     favorites={favorites}
                     setFavorites={setFavorites} />
                 <ContentRow
-                    title="Series"
-                    items={series}
+                    title="Popular Series"
+                    items={popularSeries}
                     playTrailer={playTrailer}
                     favorites={favorites}
                     setFavorites={setFavorites} />
-                <ContentRow title="Movies"
-                    items={movies}
+                <ContentRow title="Ukrainian Movies"
+                    items={ukrainianMovies}
                     playTrailer={playTrailer}
                     favorites={favorites}
                     setFavorites={setFavorites} />
                 <ContentRow
-                    title="Shorts"
-                    items={shorts}
+                    title={`Year ${nextYear} Movies`}
+                    items={nextYearMovies}
                     playTrailer={playTrailer}
                     favorites={favorites}
                     setFavorites={setFavorites} />

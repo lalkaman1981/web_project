@@ -27,7 +27,7 @@ function Header({ activePath = "" }) {
     const links = [
         { path: "/", label: "Home", icon: homeLogo, activeIcon: homeLogoB },
         { path: "/series", label: "Series", icon: SeriesLogo, activeIcon: SeriesLogoB },
-        { path: "/film", label: "Movies", icon: filmsLogo, activeIcon: filmsLogoB },
+        { path: "/movies", label: "Movies", icon: filmsLogo, activeIcon: filmsLogoB },
         { path: "/originals", label: "Originals", icon: OriginalsLogo, activeIcon: OriginalsLogoB, special: true },
     ];
 
@@ -91,14 +91,14 @@ function Header({ activePath = "" }) {
                     className={userBGStyles(isOpen)}
                     onClick={(e) => {
                         e.preventDefault();
-                        e.stopPropagation();   
+                        e.stopPropagation();
                         setIsOpen(open => !open);
                     }}
                 >
                     <img src={avatarLogo} alt="Avatar" className={styles.pointer_im} />
                     {isOpen && <div onClick={e => e.stopPropagation()}>
                         <Profile />
-                    </div> }
+                    </div>}
                 </div>
             </nav>
         </header>

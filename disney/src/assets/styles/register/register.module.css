@@ -1,7 +1,8 @@
 .text_reg {
     color: rgba(255, 255, 255, 0.6);
     text-shadow: 60%;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 1000;
 }
 
 .link_reg {
@@ -17,6 +18,13 @@
     transition: color 0.5s ease;
     color: #0483ee;
 }
+.checkbox_container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    align-items: center;
+    gap: 20px;
+}
 
 .checkbox-input {
     position: absolute;
@@ -26,12 +34,12 @@
     width: 0;
 }
 
-.checkbox-input:checked~.checkbox-custom {
+.checkbox-input:checked ~ .checkbox-custom {
     background-color: #0063e5;
     /* Disney blue */
 }
 
-.checkbox-input:checked~.checkbox-custom::after {
+.checkbox-input:checked ~ .checkbox-custom::after {
     content: "";
     position: absolute;
     left: 5px;
@@ -41,4 +49,14 @@
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
+}
+
+.error {
+    color: rgb(144, 8, 8);
+    font-weight: 1000;
+}
+
+.error_message {
+    font-weight: 800;
+    color: rgb(255, 74, 74);
 }

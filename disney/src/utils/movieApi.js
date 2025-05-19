@@ -30,8 +30,18 @@ export async function fetchLogo(movieId) {
     return null;
 }
 
-export async function fetchPopularMovie() {
-    const response = await fetch(`${API_URL}/movie/popular?language=en-US&page=1`, {
+export const PopularType = {
+    MOVIE: 1,
+    SERIES: 2,
+    ALL: 3,
+};
+
+export async function fetchPopular(type) {
+    let typeStr = "all";
+    if (type === PopularType.MOVIE) typeStr = "movie";
+    else if (type === PopularType.SERIES) typeStr = "tv";
+
+    const response = await fetch(`${API_URL}/trending/${typeStr}/day?language=en-US`, {
         method: 'GET',
         headers: {
             accept: 'application/json',
