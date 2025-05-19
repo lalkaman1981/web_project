@@ -3,6 +3,13 @@ import { useLocation } from "react-router-dom";
 import Header from "../global_components/header.jsx";
 import Footer from "../global_components/footer.jsx"
 import styles from "../../assets/styles/search/search.module.css";
+import originalsStyles from "../../assets/styles/originals/originals.module.css";
+import ContentCard from "../global_components/content_card.jsx";
+import useContentRowLogic from "../../hooks/useContentRowLogic";
+import useTrailerPlayer from '../../hooks/useTrailerPlayer';
+import VideoPlayer from '../global_components/video_player.jsx';
+import Toast from '../global_components/toast.jsx';
+
 
 const API_URL = "https://api.themoviedb.org/3";
 const SEARCH_API = `${API_URL}/search/multi`;
@@ -17,6 +24,25 @@ export default function SearchPage() {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Use content row logic for preview window and hover
+    const {
+        hoveredItem,
+        showPreview,
+        previewPosition,
+        showToLeft,
+        previewRef,
+        handleMouseEnter,
+        handleMouseLeave,
+        handlePreviewMouseLeave,
+    } = useContentRowLogic(results, originalsStyles, results.length || 1);
+    const {
+        trailerKey,
+        noTrailerMessage,
+        playTrailer,
+        closeTrailer,
+        closeMessage
+    } = useTrailerPlayer();
 
     useEffect(() => {
         if (!query) {
@@ -44,7 +70,7 @@ export default function SearchPage() {
 
     return (
         <div className={styles.searchPage}>
-            <Header/>
+            <Header />
 
             <main className={styles.main}>
                 <h1 className={styles.title}>
@@ -52,7 +78,7 @@ export default function SearchPage() {
                 </h1>
 
                 {loading && <p className={styles.message}>Downloading results...</p>}
-                {error   && <p className={styles.messageError}>{error}</p>}
+                {error && <p className={styles.messageError}>{error}</p>}
 
                 {!loading && !error && results.length === 0 && (
                     <p className={styles.message}>No results were found.</p>
@@ -60,28 +86,45 @@ export default function SearchPage() {
 
                 {!loading && !error && results.length > 0 && (
                     <div className={styles.grid}>
-                        {results.map((item) => {
-                        const title = item.title || item.name;
-                        const img   = item.backdrop_path;
-                        return (
-                            <div key={item.id} className={styles.card}>
-                                {img ? (
-                                <img
-                                    src={`${IMAGE_BASE_URL}${img}`}
-                                    alt={title}
-                                    className={styles.cardImage}
-                                />
-                                ) : (
-                                    <div className={styles.cardPlaceholder}>No Image</div>
-                                )}
-                                <div className={styles.cardTitle}>{title}</div>
-                            </div>
-                            );
-                        })}
+                        {results.map((item, index) => (
+                            <ContentCard
+                                key={item.id}
+                                item={item}
+                                index={index}
+                                isPartiallyVisible={false}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                styles={originalsStyles}
+                                playTrailer={playTrailer}
+                            />
+                        ))}
+                        {showPreview && hoveredItem && (
+                            <ContentCard.Preview
+                                hoveredItem={hoveredItem}
+                                previewRef={previewRef}
+                                previewPosition={previewPosition}
+                                showToLeft={showToLeft}
+                                styles={originalsStyles}
+                                playTrailer={playTrailer}
+                                onMouseLeave={handlePreviewMouseLeave}
+                            />
+                        )}
                     </div>
                 )}
             </main>
-            <Footer/>
+            {trailerKey && (
+                <VideoPlayer
+                    videoKey={trailerKey}
+                    onClose={closeTrailer}
+                />
+            )}
+            {noTrailerMessage && (
+                <Toast
+                    message={noTrailerMessage}
+                    onClose={closeMessage}
+                />
+            )}
+            <Footer />
         </div>
     );
 }

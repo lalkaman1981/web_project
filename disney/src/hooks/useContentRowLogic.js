@@ -41,7 +41,11 @@ export default function useContentRowLogic(items, styles, itemsPerPage = 4, prev
 
     useEffect(() => {
         const checkPartiallyVisibleItems = () => {
-            setPartiallyVisibleItems(getPartiallyVisibleItems(cardsContainerRef.current, styles.content_card));
+            if (styles.content_card) {
+                setPartiallyVisibleItems(getPartiallyVisibleItems(cardsContainerRef.current, styles.content_card));
+            } else {
+                setPartiallyVisibleItems([]);
+            }
         };
 
         checkPartiallyVisibleItems();
@@ -169,16 +173,29 @@ export default function useContentRowLogic(items, styles, itemsPerPage = 4, prev
             hoverIntentTimerRef.current = null;
         }
 
-        if (previewRef.current && !previewRef.current.contains(event.relatedTarget)) {
-            const timeout = setTimeout(() => {
-                const isOverPreview = previewRef.current && previewRef.current.matches(':hover');
-                if (!isOverPreview) {
-                    setShowPreview(false);
-                }
-            }, 100);
-
-            return () => clearTimeout(timeout);
+        // Fix: Only check contains if relatedTarget is a Node
+        if (
+            previewRef.current &&
+            event.relatedTarget &&
+            typeof event.relatedTarget === "object" &&
+            typeof previewRef.current.contains === "function" &&
+            previewRef.current.contains(event.relatedTarget)
+        ) {
+            // Do nothing, mouse moved to preview
+            return;
         }
+
+        const timeout = setTimeout(() => {
+            const isOverPreview =
+                previewRef.current &&
+                typeof previewRef.current.matches === "function" &&
+                previewRef.current.matches(':hover');
+            if (!isOverPreview) {
+                setShowPreview(false);
+            }
+        }, 100);
+
+        return () => clearTimeout(timeout);
     };
 
     const handlePreviewMouseLeave = (event) => {

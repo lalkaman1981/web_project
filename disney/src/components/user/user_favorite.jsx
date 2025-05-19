@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import ContentRow from "../global_components/content_row.jsx";
 import "../../assets/styles/user/user.css";
+import originalStyles from "../../assets/styles/originals/originals.module.css";
 
 import Header from "../global_components/header.jsx"
 import ErrorComp from "../global_components/error.jsx"
 import Footer from "../global_components/footer.jsx"
+
+import useTrailerPlayer from '../../hooks/useTrailerPlayer';
+import VideoPlayer from '../global_components/video_player.jsx';
+import Toast from '../global_components/toast.jsx';
 
 const API_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -18,6 +23,13 @@ function Favorites() {
     const [seriesIds, setSeriesIds] = useState([]);
     const [series, setSeries] = useState([]);
     const [error, setError] = useState("");
+    const {
+        trailerKey,
+        noTrailerMessage,
+        playTrailer,
+        closeTrailer,
+        closeMessage
+    } = useTrailerPlayer();
 
     useEffect(() => {
         (async () => {
@@ -120,30 +132,38 @@ function Favorites() {
         <div className="app">
             <Header/>
             <main>
+                <div className={originalStyles.content_container}>
+                    {movies.length > 0 ? (
+                        <ContentRow title="Your favorite films" items={movies} playTrailer={playTrailer} />
+                    ) : (
+                        <p>You don't have favorite films yet.</p>
+                    )}
 
-                <button
-                    onClick={() => deleteCounter()}
-                >
-                    Delete favorite
-                </button>
-
-                <h2>Your favorite films</h2>
-                {movies.length > 0 ? (
-                    <ContentRow items={movies} />
-                ) : (
-                    <p>You don't have favorite films yet.</p>
-                )}
-
-                <h2>Your favorite series</h2>
-                {series.length > 0 ? (
-                    <ContentRow items={series} />
-                ) : (
-                    <p>You don't have favorite series yet.</p>
-                )}
-                
+                    {series.length > 0 ? (
+                        <ContentRow title="Your favorite series" items={series} playTrailer={playTrailer} />
+                    ) : (
+                        <p>You don't have favorite series yet.</p>
+                    )}
+                </div>
             </main>
-            <Footer/>
-        </div>
+            {
+                trailerKey && (
+                    <VideoPlayer
+                        videoKey={trailerKey}
+                        onClose={closeTrailer}
+                    />
+                )
+            }
+            {
+                noTrailerMessage && (
+                    <Toast
+                        message={noTrailerMessage}
+                        onClose={closeMessage}
+                    />
+                )
+            }
+            <Footer />
+        </div >
     );
 }
 
