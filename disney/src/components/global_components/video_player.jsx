@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactPlayer from 'react-player';
 import styles from "../../assets/styles/video_player/video_player.module.css";
 

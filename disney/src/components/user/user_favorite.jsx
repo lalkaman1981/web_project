@@ -52,8 +52,6 @@ function Favorites() {
 
                 const data2 = await resp2.json();
 
-                console.log("boba: ", data2)
-
                 setMovieIds(data2.filmIds || []);
                 setSeriesIds(data2.seriesIds || []);
 
@@ -112,10 +110,23 @@ function Favorites() {
         );
     }
 
+    const [isDel, setDel] = useState(false);
+
+    const deleteCounter = () => {
+        setDel(!isDel);
+    }
+
     return (
         <div className="app">
-            <Header />
+            <Header/>
             <main>
+
+                <button
+                    onClick={() => deleteCounter()}
+                >
+                    Delete favorite
+                </button>
+
                 <h2>Your favorite films</h2>
                 {movies.length > 0 ? (
                     <ContentRow items={movies} />
@@ -130,8 +141,8 @@ function Favorites() {
                     <p>You don't have favorite series yet.</p>
                 )}
                 
-                <Footer />
             </main>
+            <Footer/>
         </div>
     );
 }

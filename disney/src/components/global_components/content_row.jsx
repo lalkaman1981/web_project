@@ -130,4 +130,5 @@ const ContentRow = ({ title, items, playTrailer }) => {
     );
 };
 
+
 export default ContentRow;

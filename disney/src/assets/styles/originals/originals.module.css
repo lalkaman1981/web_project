@@ -28,9 +28,8 @@ body {
 
 .Overlay1 {
     position: absolute;
-    top: 285px;
     left: 0;
-    height: 60vh;
+    margin-top: 12%;
     width: 100%;
     z-index: -2;
 }
