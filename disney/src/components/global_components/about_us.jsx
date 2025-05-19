@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import Header from "../global_components/header.jsx"
+import styles from "../../assets/styles/about_us/about_us.module.css";
 
 function AboutUs() {
 
@@ -17,7 +18,10 @@ function AboutUs() {
                 <text>
                     Here are some information about us:
                 </text>
-                <button type="button" onClick={() => handleLink("/user")}>
+                <div>
+
+                </div>
+                <button type="button" onClick={() => handleLink("/")}>
                     Go back
                 </button>
             </div>

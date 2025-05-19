@@ -4,8 +4,8 @@ import styles from "../../assets/styles/search_bar/search_bar.module.css";
 
 function SearchBar({ onSearch }) {
     const [expanded, setExpanded] = useState(false);
-    const [query, setQuery]       = useState("");
-    const inputRef                = useRef(null);
+    const [query, setQuery] = useState("");
+    const inputRef = useRef(null);
     useEffect(() => {
         if (expanded && inputRef.current) {
         inputRef.current.focus();
@@ -13,19 +13,18 @@ function SearchBar({ onSearch }) {
     }, [expanded]);
 
     const handleToggle = () => {
-        if (expanded && !query) {
-        setExpanded(false);
-        } else {
-        setExpanded(true);
-        }
+        setExpanded((prev) => {
+            if (prev) setQuery("");
+            return !prev;
+        });
     };
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
-        e.preventDefault();
-        onSearch(query);
-        setQuery("");
-        setExpanded(false);
+            e.preventDefault();
+            onSearch(query);
+            setQuery("");
+            setExpanded(false);
         }
     };
 
@@ -50,6 +49,7 @@ function SearchBar({ onSearch }) {
             type="button"
             className={styles.button}
             onClick={handleToggle}
+            onMouseDown={(e) => e.preventDefault()}
             aria-label="Toggle search"
         >
             <img src={SearchLogo} alt="Search" className={styles.icon} />

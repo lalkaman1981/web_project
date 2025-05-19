@@ -91,21 +91,50 @@ server.post("/findAllFavorites", (req, res) => {
     return res.status(200).json({ filmIds, seriesIds });
 });
 
-server.post("/addFavorite", (req, res) => {
+server.post("/addFilm", (req, res) => {
     const { user_id, film_id } = req.body;
+    if (typeof user_id !== "number" || typeof film_id !== "number") {
+      return res.status(400).json({ error: "wrong params type" });
+    }
 
     const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
-    const favorites = db.favorites;
+    let fav = db.favorites.find(f => f.id === user_id);
+  
+    if (!fav) {
+      fav = { id: user_id, film_id: [], series_id: [] };
+      db.favorites.push(fav);
+    }
 
-    const newFavorite = {
-        id: user_id,
-        film_id: film_id,
-    };
+    if (!fav.film_id.includes(film_id)) {
+      fav.film_id.push(film_id);
+      fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+      return res.status(201).json(fav);
+    } else {
+      return res.status(200).json({ message: "Film already in favorites", favorite: fav });
+    }
+});
 
-    favorites.push(newFavorite);
-    fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
-
-    res.status(201).json(newFavorite);
+server.post("/addSeries", (req, res) => {
+    const { user_id, series_id } = req.body;
+    if (typeof user_id !== "number" || typeof series_id !== "number") {
+      return res.status(400).json({ error: "wrong params type" });
+    }
+  
+    const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
+    let fav = db.favorites.find(f => f.id === user_id);
+  
+    if (!fav) {
+      fav = { id: user_id, film_id: [], series_id: [] };
+      db.favorites.push(fav);
+    }
+  
+    if (!fav.series_id.includes(series_id)) {
+      fav.series_id.push(series_id);
+      fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+      return res.status(201).json(fav);
+    } else {
+      return res.status(200).json({ message: "Series are already in favorites", favorite: fav });
+    }
 });
 
 server.delete("/removeFavorite", (req, res) => {

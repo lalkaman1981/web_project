@@ -4,9 +4,7 @@ import Register from '../components/register/register.jsx';
 import Home from '../components/home/home.jsx';
 import Favorites from '../components/user/user_favorite.jsx';
 import Originals from '../components/originals/originals.jsx';
-import Profile from '../components/user/user.jsx';
 import AboutUs from '../components/global_components/about_us.jsx';
-import DeleteUser from '../components/user/delete_user.jsx';
 import Search from '../components/search/search.jsx';
 
 function App() {
@@ -17,11 +15,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/originals" element={<Originals />} />
       <Route path="/search" element={<Search />} />
-
-      <Route path="/user" element={<Profile />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/about_us" element={<AboutUs />} />
-      <Route path="/delete_user" element={<DeleteUser />} />
     </Routes>
   );
 }
