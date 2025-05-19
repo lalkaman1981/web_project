@@ -28,16 +28,14 @@ body {
 
 .Overlay1 {
     position: absolute;
-    top: 0;
     left: 0;
-    height: 100vh;
+    margin-top: 12%;
     width: 100%;
     z-index: -2;
 }
 
 .Overlay2 {
     position: absolute;
-    top: 0;
     left: 0;
     height: 100vh;
     width: 100%;
@@ -327,11 +325,11 @@ body {
 }
 
 .arrow_left {
-    left: -5px;
+    left: -15px;
 }
 
 .arrow_right {
-    right: -5px;
+    right: -15px;
 }
 
 /* Preview Window */

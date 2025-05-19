@@ -1,6 +1,8 @@
 import useContentRowLogic from '../../hooks/useContentRowLogic';
 import styles from "../../assets/styles/originals/originals.module.css";
 import ContentCard from './content_card.jsx';
+import ArrowLeft from "../../assets/images/originals/arrow_left.svg";
+import ArrowRight from "../../assets/images/originals/arrow_right.svg";
 
 const ContentRow = ({ title, items, playTrailer }) => {
     const {
@@ -46,7 +48,7 @@ const ContentRow = ({ title, items, playTrailer }) => {
                         disabled={isAnimating}
                         aria-label="Previous page"
                     >
-                        &lt;
+                        <img src={ArrowLeft} alt="Left" />
                     </button>
                 )}
 
@@ -72,7 +74,7 @@ const ContentRow = ({ title, items, playTrailer }) => {
                         disabled={isAnimating}
                         aria-label="Next page"
                     >
-                        &gt;
+                        <img src={ArrowRight} alt="Right" />
                     </button>
                 )}
             </div>
