@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
 import disneyLogo2 from "../../assets/images/login_register/Disneppp.png";
-import avatarLogo from "../../assets/images/home/Avatar.svg";
+import avatarLogo from "../../assets/images/header_icons/Avatar.svg";
 
 import homeLogo from "../../assets/images/header_icons/home.svg";
 import homeLogoB from "../../assets/images/header_icons/home_b.svg";

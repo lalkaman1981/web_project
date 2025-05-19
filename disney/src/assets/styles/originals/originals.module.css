@@ -44,6 +44,7 @@ body {
     z-index: -2;
 }
 
+
 .OverlayTop {
     position: absolute;
     top: 0;
@@ -199,6 +200,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    z-index: 2;
 }
 
 .slider_dots {
@@ -260,6 +262,7 @@ body {
     cursor: pointer;
     transition: transform 0.2s ease-in-out, filter 0.3s ease;
     flex-shrink: 0;
+    z-index: 2;
 }
 
 
@@ -303,7 +306,7 @@ body {
 /* Arrow styles */
 .arrow_button {
     position: absolute;
-    z-index: 5;
+    z-index: 3;
     background-color: rgba(0, 0, 0, 0.6);
     color: white;
     border: none;
@@ -327,11 +330,11 @@ body {
 }
 
 .arrow_left {
-    left: -5px;
+    left: -15px;
 }
 
 .arrow_right {
-    right: -5px;
+    right: -15px;
 }
 
 /* Preview Window */
@@ -340,7 +343,7 @@ body {
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     padding: 16px;
-    z-index: 10;
+    z-index: 4;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     width: 400px;
     display: flex;

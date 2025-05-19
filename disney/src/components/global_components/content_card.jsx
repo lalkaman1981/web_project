@@ -114,7 +114,6 @@ ContentCard.Preview = function CardPreview({
                 top: `${previewPosition.top - (window.pageYOffset || document.documentElement.scrollTop)}px`,
                 left: `${previewPosition.left - (window.pageXOffset || document.documentElement.scrollLeft)}px`,
                 transform: 'none',
-                zIndex: 10
             }}
             onMouseLeave={onMouseLeave}
         >
