@@ -70,17 +70,15 @@ ContentCard.Preview = function CardPreview({
             onMouseLeave={onMouseLeave}
         >
             <div className={styles.preview_left}>
-                <img
-                    src={`${IMAGE_BASE_URL}${hoveredItem.poster_path || hoveredItem.backdrop_path || ""}`}
-                    alt={hoveredItem.title || hoveredItem.name}
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "";
-                        if (e.target.parentElement) {
-                            e.target.parentElement.innerHTML = '<div class="' + styles.cardPlaceholder + '">No Image</div>';
-                        }
-                    }}
-                />
+                {(hoveredItem.poster_path || hoveredItem.backdrop_path) ? (
+                    <img
+                        src={`${IMAGE_BASE_URL}${hoveredItem.poster_path || hoveredItem.backdrop_path}`}
+                        alt={hoveredItem.title || hoveredItem.name}
+                        onError={e => { e.target.onerror = null; e.target.style.display = "none"; }}
+                    />
+                ) : (
+                    <div className={styles.posterPlaceholder}>No Image</div>
+                )}
             </div>
             <div className={styles.preview_right}>
                 <h3>{hoveredItem.title || hoveredItem.name}</h3>

@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import Overlay1 from "../../assets/images/home/overlay1.png";
-import Overlay2 from "../../assets/images/home/overlay2.png";
-import OverlayTop from "../../assets/images/home/overlayTop.png";
-
 import styles from "../../assets/styles/originals/originals.module.css";
 
 import Header from "../global_components/header.jsx"
@@ -13,8 +9,8 @@ import ContentRow from '../global_components/content_row.jsx';
 import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
-import { fetchMovies, fetchLogo, fetchPopularMovie, IMAGE_BASE_URL } from '../../utils/movieApi';
-import FeaturedMovie from './featured_movie.jsx';
+import { fetchMovies, fetchLogo, fetchPopularMovie } from '../../utils/movieApi';
+import FeaturedMovie from '../global_components/featured_movie.jsx';
 
 function Originals() {
     const [newContent, setNewContent] = useState([]);
@@ -49,18 +45,10 @@ function Originals() {
         return () => clearInterval(interval);
     }, []);
 
-    const password = localStorage.getItem('password');
-    const email = localStorage.getItem('email');
-
-    if (!movie) return <div>Loading...</div>;
-    if (!logoUrl) return <div>Loading...</div>;
+    if (!movie || !logoUrl) return <div>Loading...</div>;
 
     return (
         <div className={styles.OriginalsContainer}>
-            <img className={styles.bg_image} src={`${IMAGE_BASE_URL}${movie.backdrop_path}`} alt="Background" />
-            <img className={styles.Overlay1} src={Overlay1} alt="Overlay" />
-            <img className={styles.Overlay2} src={Overlay2} alt="Overlay" />
-            <img className={styles.OverlayTop} src={OverlayTop} alt="Overlay" />
             <Header activePath={"/originals"} />
 
             <FeaturedMovie
