@@ -10,6 +10,7 @@ import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 
+import { getAllFavorites } from '../../utils/addFavorite';
 
 const API_URL = "https://api.themoviedb.org/3";
 const SEARCH_API = `${API_URL}/search/multi`;
@@ -17,6 +18,8 @@ const BEARER_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
 
 export default function SearchPage() {
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
     const { state } = useLocation();
     const query = state?.query ?? "";
 
@@ -67,6 +70,20 @@ export default function SearchPage() {
             });
     }, [query]);
 
+    const [favorites, setFavorites] = useState({ filmIds: [], seriesIds: [] });
+    
+    useEffect(() => {
+        async function fetchFavs() {
+            try {
+                const data = await getAllFavorites({ email, password });
+                setFavorites(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchFavs();
+    }, [email, password]);
+
     return (
         <div className={styles.searchPage}>
             <Header />
@@ -106,6 +123,8 @@ export default function SearchPage() {
                                 styles={originalsStyles}
                                 playTrailer={playTrailer}
                                 onMouseLeave={handlePreviewMouseLeave}
+                                favorites={favorites}
+                                setFavorites={setFavorites}
                             />
                         )}
                     </div>

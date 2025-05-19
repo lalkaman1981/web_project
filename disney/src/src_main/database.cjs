@@ -88,30 +88,31 @@ server.post("/findAllFavorites", (req, res) => {
     const filmIds = userFavorites ? userFavorites.film_id : [];
     const seriesIds = userFavorites ? userFavorites.series_id : [];
 
-    return res.status(200).json({ filmIds, seriesIds });
+    return res.status(200).json({ filmIds: filmIds, seriesIds: seriesIds });
 });
 
 server.post("/addFilm", (req, res) => {
-    const { user_id, film_id } = req.body;
-    if (typeof user_id !== "number" || typeof film_id !== "number") {
-      return res.status(400).json({ error: "wrong params type" });
-    }
+  const { user_id, film_id } = req.body;
 
-    const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
-    let fav = db.favorites.find(f => f.id === user_id);
-  
-    if (!fav) {
-      fav = { id: user_id, film_id: [], series_id: [] };
-      db.favorites.push(fav);
-    }
+  if (typeof user_id !== "number" || typeof film_id !== "number") {
+    return res.status(400).json({ error: "wrong params type" });
+  }
 
-    if (!fav.film_id.includes(film_id)) {
-      fav.film_id.push(film_id);
-      fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
-      return res.status(201).json(fav);
-    } else {
-      return res.status(200).json({ message: "Film already in favorites", favorite: fav });
-    }
+  const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
+  let fav = db.favorites.find(f => f.id === user_id);
+
+  if (!fav) {
+    fav = { id: user_id, film_id: [], series_id: [] };
+    db.favorites.push(fav);
+  }
+
+  if (!fav.film_id.includes(film_id)) {
+    fav.film_id.push(film_id);
+    fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+    return res.status(201).json(fav);
+  } else {
+    return res.status(200).json({ message: "Film already in favorites", favorite: fav });
+  }
 });
 
 server.post("/addSeries", (req, res) => {
@@ -137,23 +138,52 @@ server.post("/addSeries", (req, res) => {
     }
 });
 
-server.delete("/removeFavorite", (req, res) => {
-    const { id, film_id } = req.body;
+server.delete("/removeFilm", (req, res) => {
+  const { user_id, film_id } = req.body;
 
-    const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
-    const favorites = db.favorites;
-    const filtered = favorites.filter(
-        (favorite) => favorite.id !== id && favorite.film_id !== film_id
-    );
+  if (typeof user_id !== "number" || typeof film_id !== "number") {
+    return res.status(400).json({ error: "wrong params type" });
+  }
 
-    if (favorites.length === filtered.length) {
-        return res.status(404).json({ error: "User not found" });
-    }
+  const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
+  const fav = db.favorites.find(f => f.id === user_id);
 
-    db.users = filtered;
-    fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+  if (!fav) {
+    return res.status(404).json({ error: "user not found" });
+  }
 
-    res.status(200).json({ message: "User removed" });
+  const idx = fav.film_id.indexOf(film_id);
+  if (idx === -1) {
+    return res.status(200).json({ message: "Film not in favorites", favorite: fav });
+  }
+
+  fav.film_id.splice(idx, 1);
+  fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+  return res.status(200).json(fav);
+});
+
+server.delete("/removeSeries", (req, res) => {
+  const { user_id, series_id } = req.body;
+
+  if (typeof user_id !== "number" || typeof series_id !== "number") {
+    return res.status(400).json({ error: "wrong params type" });
+  }
+
+  const db = JSON.parse(fs.readFileSync(real_path, "utf-8"));
+  const fav = db.favorites.find(f => f.id === user_id);
+
+  if (!fav) {
+    return res.status(404).json({ error: "user not found" });
+  }
+
+  const idx = fav.series_id.indexOf(series_id);
+  if (idx === -1) {
+    return res.status(200).json({ message: "Series not in favorites", favorite: fav });
+  }
+
+  fav.series_id.splice(idx, 1);
+  fs.writeFileSync(real_path, JSON.stringify(db, null, 2));
+  return res.status(200).json(fav);
 });
 
 server.use(router);

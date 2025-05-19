@@ -11,6 +11,7 @@ import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import { fetchMovies, fetchLogo, fetchPopular, PopularType } from '../../utils/movieApi';
 import FeaturedMovie from '../global_components/featured_movie.jsx';
+import { getAllFavorites } from '../../utils/addFavorite';
 
 function Originals() {
     const nextYear = new Date().getFullYear() + 1;
@@ -27,6 +28,23 @@ function Originals() {
         closeTrailer,
         closeMessage
     } = useTrailerPlayer();
+
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
+
+    const [favorites, setFavorites] = useState({ filmIds: [], seriesIds: [] });
+
+    useEffect(() => {
+        async function fetchFavs() {
+            try {
+                const data = await getAllFavorites({ email, password });
+                setFavorites(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchFavs();
+    }, [email, password]);
 
     useEffect(() => {
         fetchMovies('/movie/popular?language=en-US&page=1').then(setPopularMovies);
@@ -59,10 +77,29 @@ function Originals() {
             />
 
             <div className={styles.content_container}>
-                <ContentRow title="Popular Movies" items={popularMovies} playTrailer={playTrailer} />
-                <ContentRow title="Popular Series" items={popularSeries} playTrailer={playTrailer} />
-                <ContentRow title="Ukrainian Movies" items={ukrainianMovies} playTrailer={playTrailer} />
-                <ContentRow title={`Year ${nextYear} Movies`} items={nextYearMovies} playTrailer={playTrailer} />
+                <ContentRow
+                    title="Popular Movies"
+                    items={popularMovies}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
+                <ContentRow
+                    title="Popular Series"
+                    items={popularSeries}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
+                <ContentRow title="Ukrainian Movies"
+                    items={ukrainianMovies}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
+                <ContentRow
+                    title={`Year ${nextYear} Movies`}
+                    items={nextYearMovies}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
             </div>
             {trailerKey && (
                 <VideoPlayer

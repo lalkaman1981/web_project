@@ -4,7 +4,8 @@ import ContentCard from './content_card.jsx';
 import ArrowLeft from "../../assets/images/originals/arrow_left.svg";
 import ArrowRight from "../../assets/images/originals/arrow_right.svg";
 
-const ContentRow = ({ title, items, playTrailer }) => {
+
+const ContentRow = ({ title, items, playTrailer, favorites, setFavorites }) => {
     const {
         rowRef,
         cardsContainerRef,
@@ -79,7 +80,6 @@ const ContentRow = ({ title, items, playTrailer }) => {
                 )}
             </div>
 
-            {/* Preview */}
             {showPreview && hoveredItem && (
                 <ContentCard.Preview
                     hoveredItem={hoveredItem}
@@ -89,6 +89,8 @@ const ContentRow = ({ title, items, playTrailer }) => {
                     styles={styles}
                     playTrailer={playTrailer}
                     onMouseLeave={handlePreviewMouseLeave}
+                    favorites={favorites}
+                    setFavorites={setFavorites}
                 />
             )}
         </div>
