@@ -11,7 +11,9 @@ import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import { fetchMovies, fetchLogo, fetchPopular, PopularType } from '../../utils/movieApi';
 import FeaturedMovie from '../global_components/featured_movie.jsx';
-import { getAllFavorites } from '../../utils/addFavorite';
+import { getAllFavorites, checkUser } from '../../utils/addFavorite';
+
+import ErrorComp from '../global_components/error.jsx';
 
 function Originals() {
     const nextYear = new Date().getFullYear() + 1;
@@ -33,6 +35,32 @@ function Originals() {
     const email = localStorage.getItem('email');
 
     const [favorites, setFavorites] = useState({ filmIds: [], seriesIds: [] });
+
+    const [authChecked, setAuthChecked] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const exists = await checkUser({ email, password });
+            setIsAuthenticated(exists);
+            setAuthChecked(true);
+        })();
+    }, [email, password]);
+
+    useEffect(() => {
+        if (!isAuthenticated) return;
+
+        const getMovieAndLogo = async () => {
+            const mostPopular = await fetchPopular(PopularType.ALL);
+            setMovie(mostPopular);
+            const logo = await fetchLogo(mostPopular.id);
+            setLogoUrl(logo);
+        };
+        getMovieAndLogo();
+
+        const interval = setInterval(getMovieAndLogo, 86400000);
+        return () => clearInterval(interval);
+    }, [isAuthenticated]);
 
     useEffect(() => {
         async function fetchFavs() {
@@ -63,6 +91,14 @@ function Originals() {
         const interval = setInterval(getMovieAndLogo, 86400000);
         return () => clearInterval(interval);
     }, []);
+
+    if (!authChecked) {
+        return <div>Checking authentication...</div>;
+    }
+
+    if (!isAuthenticated) {
+        return <ErrorComp error="User not found. Please log in." />;
+    }
 
     if (!movie || !logoUrl) return <div>Loading...</div>;
 

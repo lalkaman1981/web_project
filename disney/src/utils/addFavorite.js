@@ -142,3 +142,23 @@ export async function getAllFavorites({ email, password }) {
     return data2
 }
 
+export async function checkUser({ email, password }) {
+    const resp1 = await fetch("http://localhost:3000/searchUser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+
+    if (!resp1.ok) {
+        return false;
+    }
+
+    const data1 = await resp1.json();
+    const userId = data1.id;
+    if (!userId) {
+        return false;
+    }
+
+    return true;
+}
+

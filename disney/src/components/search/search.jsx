@@ -10,7 +10,8 @@ import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 
-import { getAllFavorites } from '../../utils/addFavorite';
+import { getAllFavorites, checkUser } from '../../utils/addFavorite';
+import ErrorComp from '../global_components/error.jsx';
 
 const API_URL = "https://api.themoviedb.org/3";
 const SEARCH_API = `${API_URL}/search/multi`;
@@ -45,6 +46,32 @@ export default function SearchPage() {
         closeTrailer,
         closeMessage
     } = useTrailerPlayer();
+
+    const [authChecked, setAuthChecked] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const exists = await checkUser({ email, password });
+            setIsAuthenticated(exists);
+            setAuthChecked(true);
+        })();
+    }, [email, password]);
+
+    useEffect(() => {
+        if (!isAuthenticated) return;
+
+        const getMovieAndLogo = async () => {
+            const mostPopular = await fetchPopular(PopularType.ALL);
+            setMovie(mostPopular);
+            const logo = await fetchLogo(mostPopular.id);
+            setLogoUrl(logo);
+        };
+        getMovieAndLogo();
+
+        const interval = setInterval(getMovieAndLogo, 86400000);
+        return () => clearInterval(interval);
+    }, [isAuthenticated]);
 
     useEffect(() => {
         if (!query) {
@@ -83,6 +110,14 @@ export default function SearchPage() {
         }
         fetchFavs();
     }, [email, password]);
+
+    if (!authChecked) {
+        return <div>Checking authentication...</div>;
+    }
+
+    if (!isAuthenticated) {
+        return <ErrorComp error="User not found. Please log in." />;
+    }
 
     return (
         <div className={styles.searchPage}>

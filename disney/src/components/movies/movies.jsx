@@ -8,8 +8,55 @@ import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import { fetchMovies, fetchLogo, fetchPopular, PopularType } from '../../utils/movieApi';
 import FeaturedMovie from '../global_components/featured_movie.jsx';
+import { getAllFavorites, checkUser } from '../../utils/addFavorite';
+
+import ErrorComp from '../global_components/error.jsx';
 
 function Movies() {
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
+
+
+    const [favorites, setFavorites] = useState({ filmIds: [], seriesIds: [] });
+
+    const [authChecked, setAuthChecked] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const exists = await checkUser({ email, password });
+            setIsAuthenticated(exists);
+            setAuthChecked(true);
+        })();
+    }, [email, password]);
+
+    useEffect(() => {
+        if (!isAuthenticated) return;
+
+        const getMovieAndLogo = async () => {
+            const mostPopular = await fetchPopular(PopularType.ALL);
+            setMovie(mostPopular);
+            const logo = await fetchLogo(mostPopular.id);
+            setLogoUrl(logo);
+        };
+        getMovieAndLogo();
+
+        const interval = setInterval(getMovieAndLogo, 86400000);
+        return () => clearInterval(interval);
+    }, [isAuthenticated]);
+
+    useEffect(() => {
+        async function fetchFavs() {
+            try {
+                const data = await getAllFavorites({ email, password });
+                setFavorites(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchFavs();
+    }, [email, password]);
+
     const [nowPlaying, setNowPlaying] = useState([]);
     const [popular, setPopular] = useState([]);
     const [topRated, setTopRated] = useState([]);
@@ -42,7 +89,16 @@ function Movies() {
         return () => clearInterval(interval);
     }, []);
 
+    if (!authChecked) {
+        return <div>Checking authentication...</div>;
+    }
+
+    if (!isAuthenticated) {
+        return <ErrorComp error="User not found. Please log in." />;
+    }
+
     if (!movie || !logoUrl) return <div>Loading...</div>;
+
 
     return (
         <div className={styles.OriginalsContainer}>
@@ -55,10 +111,30 @@ function Movies() {
             />
 
             <div className={styles.content_container}>
-                <ContentRow title="Now Playing" items={nowPlaying} playTrailer={playTrailer} />
-                <ContentRow title="Popular" items={popular} playTrailer={playTrailer} />
-                <ContentRow title="Top Rated" items={topRated} playTrailer={playTrailer} />
-                <ContentRow title="Upcoming" items={upcoming} playTrailer={playTrailer} />
+                <ContentRow
+                    title="Now Playing"
+                    items={nowPlaying}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites}/>
+                <ContentRow
+                    title="Popular"
+                    items={popular}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites}/>
+                <ContentRow
+                    title="Top Rated"
+                    items={topRated}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites}/>
+                <ContentRow
+                    title="Upcoming"
+                    items={upcoming}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites}/>
             </div>
             {trailerKey && (
                 <VideoPlayer

@@ -1,7 +1,9 @@
-function ErrorComp(error) {
+import { Link } from 'react-router-dom';
+
+export function ErrorComp({ error }) {
     return (
-        <div>
-            <p>Error occured. go back to<Link to="/">Home</Link>.</p>
+        <div style={{ padding: '1rem', textAlign: 'center', color: "white"}}>
+            <p>Error occurred. Go back to <Link to="/login">Login</Link>.</p>
             <p><em>{error}</em></p>
         </div>
     );
