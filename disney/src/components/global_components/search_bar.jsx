@@ -8,15 +8,20 @@ function SearchBar({ onSearch }) {
     const inputRef = useRef(null);
     useEffect(() => {
         if (expanded && inputRef.current) {
-        inputRef.current.focus();
+            inputRef.current.focus();
         }
     }, [expanded]);
 
     const handleToggle = () => {
-        setExpanded((prev) => {
-            if (prev) setQuery("");
-            return !prev;
-        });
+        if (expanded) {
+            if (query) {
+                onSearch(query);
+                setQuery("");
+            }
+            setExpanded(false);
+        } else {
+            setExpanded(true);
+        }
     };
 
     const handleKeyDown = (e) => {
@@ -34,26 +39,26 @@ function SearchBar({ onSearch }) {
 
     return (
         <div className={styles.container}>
-        <input
-            ref={inputRef}
-            type="text"
-            className={`${styles.input} ${expanded ? styles.expanded : ""}`}
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            onBlur={handleBlur}
-        />
+            <input
+                ref={inputRef}
+                type="text"
+                className={`${styles.input} ${expanded ? styles.expanded : ""}`}
+                placeholder="Search..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
+            />
 
-        <button
-            type="button"
-            className={styles.button}
-            onClick={handleToggle}
-            onMouseDown={(e) => e.preventDefault()}
-            aria-label="Toggle search"
-        >
-            <img src={SearchLogo} alt="Search" className={styles.icon} />
-        </button>
+            <button
+                type="button"
+                className={styles.button}
+                onClick={handleToggle}
+                onMouseDown={(e) => e.preventDefault()}
+                aria-label="Toggle search"
+            >
+                <img src={SearchLogo} alt="Search" className={styles.icon} />
+            </button>
         </div>
     );
 }

@@ -49,6 +49,12 @@
       "id": 11,
       "email": "1",
       "password": "1"
+    },
+    {
+      "id": 12,
+      "email": "2",
+      "password": "2",
+      "nickname": ""
     }
   ],
   "favorites": [
