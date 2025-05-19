@@ -15,6 +15,7 @@ import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import { fetchMovies, fetchLogo, fetchPopularMovie, IMAGE_BASE_URL } from '../../utils/movieApi';
 import FeaturedMovie from './featured_movie.jsx';
+import { getAllFavorites } from '../../utils/addFavorite';
 
 function Originals() {
     const [newContent, setNewContent] = useState([]);
@@ -30,6 +31,23 @@ function Originals() {
         closeTrailer,
         closeMessage
     } = useTrailerPlayer();
+
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
+
+    const [favorites, setFavorites] = useState({ filmIds: [], seriesIds: [] });
+
+    useEffect(() => {
+        async function fetchFavs() {
+            try {
+                const data = await getAllFavorites({ email, password });
+                setFavorites(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchFavs();
+    }, [email, password]);
 
     useEffect(() => {
         fetchMovies('/movie/now_playing?language=en-US&page=1').then(setNewContent);
@@ -49,9 +67,6 @@ function Originals() {
         return () => clearInterval(interval);
     }, []);
 
-    const password = localStorage.getItem('password');
-    const email = localStorage.getItem('email');
-
     if (!movie) return <div>Loading...</div>;
     if (!logoUrl) return <div>Loading...</div>;
 
@@ -70,10 +85,29 @@ function Originals() {
             />
 
             <div className={styles.content_container}>
-                <ContentRow title="New Releases" items={newContent} playTrailer={playTrailer} />
-                <ContentRow title="Series" items={series} playTrailer={playTrailer} />
-                <ContentRow title="Movies" items={movies} playTrailer={playTrailer} />
-                <ContentRow title="Shorts" items={shorts} playTrailer={playTrailer} />
+                <ContentRow
+                    title="New Releases"
+                    items={newContent}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
+                <ContentRow
+                    title="Series"
+                    items={series}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
+                <ContentRow title="Movies"
+                    items={movies}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
+                <ContentRow
+                    title="Shorts"
+                    items={shorts}
+                    playTrailer={playTrailer}
+                    favorites={favorites}
+                    setFavorites={setFavorites} />
             </div>
             {trailerKey && (
                 <VideoPlayer

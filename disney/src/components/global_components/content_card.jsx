@@ -1,5 +1,6 @@
 import { IMAGE_BASE_URL } from '../../utils/movieApi';
-import { addFavoriteFilm, addFavoriteSeries } from '../../utils/addFavorite';
+import { addFavoriteFilm, addFavoriteSeries, removeFavoriteSeries, removeFavoriteFilm } from '../../utils/addFavorite';
+import { useState, useEffect } from 'react';
 
 function ContentCard({
     item,
@@ -39,19 +40,67 @@ ContentCard.Preview = function CardPreview({
     styles,
     playTrailer,
     onMouseLeave,
+    favorites,
+    setFavorites
 }) {
-    // Get user credentials once
-    const password = localStorage.getItem('password');
-    const email = localStorage.getItem('email');
+
+    const { filmIds = [], seriesIds = [] } = favorites || {};
+
+    const [isAdded, setIsAdded] = useState(
+        hoveredItem.title
+            ? filmIds.includes(hoveredItem.id)
+            : seriesIds.includes(hoveredItem.id)
+    );
+
+    useEffect(() => {
+        setIsAdded(
+            hoveredItem.title
+                ? filmIds.includes(hoveredItem.id)
+                : seriesIds.includes(hoveredItem.id)
+        );
+    }, [hoveredItem, filmIds, seriesIds]);
 
     const handleAddFavorite = async () => {
         try {
             if (hoveredItem.title) {
-                await addFavoriteFilm({ email, password, filmId: hoveredItem.id });
+                await addFavoriteFilm({ email: localStorage.email, password: localStorage.password, filmId: hoveredItem.id });
+                setFavorites({
+                    ...favorites,
+                    filmIds: [...filmIds, hoveredItem.id],
+                    seriesIds
+                });
             } else {
-                await addFavoriteSeries({ email, password, seriesId: hoveredItem.id });
+                await addFavoriteSeries({ email: localStorage.email, password: localStorage.password, seriesId: hoveredItem.id });
+                setFavorites({
+                    ...favorites,
+                    filmIds,
+                    seriesIds: [...seriesIds, hoveredItem.id]
+                });
             }
-            // Optionally show a toast or feedback here
+            setIsAdded(true);
+        } catch (e) {
+            alert(e.message);
+        }
+    };
+
+    const handleRemoveFavorite = async () => {
+        try {
+            if (hoveredItem.title) {
+                await removeFavoriteFilm({ email: localStorage.email, password: localStorage.password, filmId: hoveredItem.id });
+                setFavorites({
+                    ...favorites,
+                    filmIds: filmIds.filter(id => id !== hoveredItem.id),
+                    seriesIds
+                });
+            } else {
+                await removeFavoriteSeries({ email: localStorage.email, password: localStorage.password, seriesId: hoveredItem.id });
+                setFavorites({
+                    ...favorites,
+                    filmIds,
+                    seriesIds: seriesIds.filter(id => id !== hoveredItem.id)
+                });
+            }
+            setIsAdded(false);
         } catch (e) {
             alert(e.message);
         }
@@ -92,12 +141,21 @@ ContentCard.Preview = function CardPreview({
                         Play
                     </button>
                 )}
-                <button
-                    className={styles.preview_button}
-                    onClick={handleAddFavorite}
-                >
-                    Add to Favourites
-                </button>
+                {isAdded ?
+                    <button
+                        className={styles.preview_button}
+                        onClick={handleRemoveFavorite}
+                    >
+                        Remove from favorites
+                    </button>
+                    :
+                    <button
+                        className={styles.preview_button}
+                        onClick={handleAddFavorite}
+                    >
+                        Add to Favorites
+                    </button>
+                }
             </div>
         </div>
     );

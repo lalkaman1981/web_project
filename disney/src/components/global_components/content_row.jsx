@@ -2,7 +2,8 @@ import useContentRowLogic from '../../hooks/useContentRowLogic';
 import styles from "../../assets/styles/originals/originals.module.css";
 import ContentCard from './content_card.jsx';
 
-const ContentRow = ({ title, items, playTrailer }) => {
+
+const ContentRow = ({ title, items, playTrailer, favorites, setFavorites }) => {
     const {
         rowRef,
         cardsContainerRef,
@@ -77,7 +78,6 @@ const ContentRow = ({ title, items, playTrailer }) => {
                 )}
             </div>
 
-            {/* Preview */}
             {showPreview && hoveredItem && (
                 <ContentCard.Preview
                     hoveredItem={hoveredItem}
@@ -87,6 +87,8 @@ const ContentRow = ({ title, items, playTrailer }) => {
                     styles={styles}
                     playTrailer={playTrailer}
                     onMouseLeave={handlePreviewMouseLeave}
+                    favorites={favorites}
+                    setFavorites={setFavorites}
                 />
             )}
         </div>

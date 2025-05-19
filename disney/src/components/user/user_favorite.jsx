@@ -11,6 +11,8 @@ import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 
+import { getAllFavorites } from '../../utils/addFavorite';
+
 const API_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -122,11 +124,19 @@ function Favorites() {
         );
     }
 
-    const [isDel, setDel] = useState(false);
+    const [favorites, setFavorites] = useState({ filmIds: [], seriesIds: [] });
 
-    const deleteCounter = () => {
-        setDel(!isDel);
-    }
+    useEffect(() => {
+        async function fetchFavs() {
+            try {
+                const data = await getAllFavorites({ email, password });
+                setFavorites(data);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchFavs();
+    }, [email, password]);
 
     return (
         <div className="app">
@@ -134,13 +144,23 @@ function Favorites() {
             <main>
                 <div className={originalStyles.content_container}>
                     {movies.length > 0 ? (
-                        <ContentRow title="Your favorite films" items={movies} playTrailer={playTrailer} />
+                        <ContentRow
+                            title="Your favorite films"
+                            items={movies}
+                            playTrailer={playTrailer}
+                            favorites={favorites}
+                            setFavorites={setFavorites}/>
                     ) : (
                         <p>You don't have favorite films yet.</p>
                     )}
 
                     {series.length > 0 ? (
-                        <ContentRow title="Your favorite series" items={series} playTrailer={playTrailer} />
+                        <ContentRow
+                            title="Your favorite series"
+                            items={series}
+                            playTrailer={playTrailer}
+                            favorites={favorites}
+                            setFavorites={setFavorites}/>
                     ) : (
                         <p>You don't have favorite series yet.</p>
                     )}
