@@ -241,6 +241,7 @@ body {
     padding-bottom: 20px;
     width: 100%;
     clip-path: inset(0);
+    padding: 5px;
 }
 
 .content_cards::-webkit-scrollbar {
@@ -277,7 +278,7 @@ body {
 
 .content_card img {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: 8px;
     object-fit: cover;
 }

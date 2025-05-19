@@ -1,6 +1,6 @@
 import useContentRowLogic from '../../hooks/useContentRowLogic';
 import styles from "../../assets/styles/originals/originals.module.css";
-import { IMAGE_BASE_URL } from '../../utils/movieApi';
+import ContentCard from './content_card.jsx';
 
 const ContentRow = ({ title, items, playTrailer }) => {
     const {
@@ -51,31 +51,17 @@ const ContentRow = ({ title, items, playTrailer }) => {
                 )}
 
                 <div className={styles.content_cards} ref={cardsContainerRef}>
-                    {items.map((item, index) => {
-                        const isPartiallyVisible = partiallyVisibleItems.includes(index);
-
-                        return (
-                            <div
-                                key={item.id}
-                                className={`${styles.content_card} ${isPartiallyVisible ? styles.partially_visible : ''}`}
-                                onMouseEnter={(e) => handleMouseEnter(item, e, index)}
-                                onMouseLeave={(e) => handleMouseLeave(item, e)}
-                            >
-                                {item.backdrop_path ? (
-                                    <img
-                                        src={`${IMAGE_BASE_URL}${item.backdrop_path}`}
-                                        alt={"No Image"}
-                                        onError={e => { e.target.onerror = null; e.target.style.display = "none"; }}
-                                    />
-                                ) : (
-                                    <div className={styles.cardPlaceholder}>No Image</div>
-                                )}
-                                <div className={styles.card_title}>
-                                    {item.title || item.name}
-                                </div>
-                            </div>
-                        );
-                    })}
+                    {items.map((item, index) => (
+                        <ContentCard
+                            item={item}
+                            index={index}
+                            isPartiallyVisible={partiallyVisibleItems.includes(index)}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            styles={styles}
+                            playTrailer={playTrailer}
+                        />
+                    ))}
                 </div>
 
                 {/* Right Arrow */}
@@ -91,40 +77,17 @@ const ContentRow = ({ title, items, playTrailer }) => {
                 )}
             </div>
 
+            {/* Preview */}
             {showPreview && hoveredItem && (
-                <div
-                    ref={previewRef}
-                    className={`${styles.preview_window} ${showToLeft ? styles.preview_left_position : ''}`}
-                    style={{
-                        top: `${previewPosition.top - (window.pageYOffset || document.documentElement.scrollTop)}px`,
-                        left: `${previewPosition.left - (window.pageXOffset || document.documentElement.scrollLeft)}px`,
-                        transform: 'none',
-                        zIndex: 10
-                    }}
+                <ContentCard.Preview
+                    hoveredItem={hoveredItem}
+                    previewRef={previewRef}
+                    previewPosition={previewPosition}
+                    showToLeft={showToLeft}
+                    styles={styles}
+                    playTrailer={playTrailer}
                     onMouseLeave={handlePreviewMouseLeave}
-                >
-                    <div className={styles.preview_left}>
-                        <img
-                            src={`${IMAGE_BASE_URL}${hoveredItem.poster_path}`}
-                            alt={hoveredItem.title || hoveredItem.name}
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = "";
-                                e.target.parentElement.innerHTML = '<div class="' + styles.cardPlaceholder + '">No Image</div>';
-                            }}
-                        />
-                    </div>
-                    <div className={styles.preview_right}>
-                        <h3>{hoveredItem.title || hoveredItem.name}</h3>
-                        <button
-                            className={styles.preview_button}
-                            onClick={() => playTrailer(hoveredItem)}
-                        >
-                            Play
-                        </button>
-                        <button className={styles.preview_button}>Add to Favourites</button>
-                    </div>
-                </div>
+                />
             )}
         </div>
     );

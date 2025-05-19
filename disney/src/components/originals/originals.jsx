@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import PlayLogo from "../../assets/images/home/play.svg";
-
 import Overlay1 from "../../assets/images/home/overlay1.png";
 import Overlay2 from "../../assets/images/home/overlay2.png";
 import OverlayTop from "../../assets/images/home/overlayTop.png";
@@ -16,6 +14,7 @@ import VideoPlayer from '../global_components/video_player.jsx';
 import Toast from '../global_components/toast.jsx';
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import { fetchMovies, fetchLogo, fetchPopularMovie, IMAGE_BASE_URL } from '../../utils/movieApi';
+import FeaturedMovie from './featured_movie.jsx';
 
 function Originals() {
     const [newContent, setNewContent] = useState([]);
@@ -50,37 +49,26 @@ function Originals() {
         return () => clearInterval(interval);
     }, []);
 
+    const password = localStorage.getItem('password');
+    const email = localStorage.getItem('email');
+
     if (!movie) return <div>Loading...</div>;
     if (!logoUrl) return <div>Loading...</div>;
 
-    const bgImage = `${IMAGE_BASE_URL}${movie.backdrop_path}`;
-    const movieDecrp = `${movie.overview}`;
-
     return (
         <div className={styles.OriginalsContainer}>
-            <img className={styles.bg_image} src={bgImage} alt="Background" />
+            <img className={styles.bg_image} src={`${IMAGE_BASE_URL}${movie.backdrop_path}`} alt="Background" />
             <img className={styles.Overlay1} src={Overlay1} alt="Overlay" />
             <img className={styles.Overlay2} src={Overlay2} alt="Overlay" />
             <img className={styles.OverlayTop} src={OverlayTop} alt="Overlay" />
             <Header activePath={"/originals"} />
 
-            <section className={styles.film}>
-                <div className={styles.film_logo_text}>
-                    <img className={styles.logo_img} src={logoUrl} alt="Movie Logo" />
-                    <p className={styles.film_text}>
-                        {movieDecrp}
-                    </p>
-                </div>
-                <div className={styles.film_bttns}>
-                    <button
-                        className={styles.film_btn_play}
-                        onClick={() => playTrailer(movie)}
-                    >
-                        <img src={PlayLogo} alt="" />
-                        Watch Now
-                    </button>
-                </div>
-            </section>
+            <FeaturedMovie
+                movie={movie}
+                logoUrl={logoUrl}
+                playTrailer={playTrailer}
+            />
+
             <div className={styles.content_container}>
                 <ContentRow title="New Releases" items={newContent} playTrailer={playTrailer} />
                 <ContentRow title="Series" items={series} playTrailer={playTrailer} />

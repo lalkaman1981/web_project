@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 2rem auto;
     padding: 0 1rem;
     margin-bottom: 100px;
@@ -37,6 +37,7 @@
     margin-top: 2rem;
     font-size: 1.1rem;
 }
+
 .messageError {
     color: #f55;
 }
@@ -44,7 +45,8 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1rem;
+    row-gap: 20px;
+    column-gap: 60px;
 }
 
 .card {
@@ -53,6 +55,7 @@
     overflow: hidden;
     transition: transform 0.2s;
 }
+
 .card:hover {
     transform: scale(1.05);
 }
