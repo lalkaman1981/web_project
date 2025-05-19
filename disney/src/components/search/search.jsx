@@ -13,7 +13,6 @@ import Toast from '../global_components/toast.jsx';
 
 const API_URL = "https://api.themoviedb.org/3";
 const SEARCH_API = `${API_URL}/search/multi`;
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 const BEARER_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
 

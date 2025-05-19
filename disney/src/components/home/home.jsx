@@ -4,7 +4,7 @@ import styles from "../../assets/styles/home/home.module.css";
 import useTrailerPlayer from '../../hooks/useTrailerPlayer';
 import Header from "../global_components/header.jsx";
 import FeaturedMovie from '../global_components/featured_movie.jsx';
-import { fetchLogo, fetchPopularMovie } from '../../utils/movieApi';
+import { fetchLogo, fetchPopular, PopularType } from '../../utils/movieApi';
 import VideoPlayer from '../global_components/video_player.jsx';
 
 
@@ -22,9 +22,9 @@ function Home() {
 
     useEffect(() => {
         const getMovieAndLogo = async () => {
-            const mostPopularMovie = await fetchPopularMovie();
-            setMovie(mostPopularMovie);
-            const logo = await fetchLogo(mostPopularMovie.id);
+            const mostPopular = await fetchPopular(PopularType.ALL);
+            setMovie(mostPopular);
+            const logo = await fetchLogo(mostPopular.id);
             setLogoUrl(logo);
         };
         getMovieAndLogo();
